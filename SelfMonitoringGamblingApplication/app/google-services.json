@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "91102348917",
+    "firebase_url": "https://selfmonitoringgamblingapp.firebaseio.com",
+    "project_id": "selfmonitoringgamblingapp",
+    "storage_bucket": "selfmonitoringgamblingapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91102348917:android:eadfaf338a94d7ba",
+        "android_client_info": {
+          "package_name": "com.example.sebastiena.selfmonitoringgamblingapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "91102348917-3daqsr579a3tfmr085s3hjtl4r3248ln.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sebastiena.selfmonitoringgamblingapplication",
+            "certificate_hash": "8D8ED4040C4A62B0FC4AAC62C423142A1DFA4E20"
+          }
+        },
+        {
+          "client_id": "91102348917-60k0ptljbg4akovt3o0obi2imfcne1dr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBN8eAsQUNe9j77B8GE3ndD1sxn-jINobM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "91102348917-60k0ptljbg4akovt3o0obi2imfcne1dr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
