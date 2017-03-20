@@ -6,15 +6,86 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.example.sebastiena.selfmonitoringgamblingapplication.MainActivity">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_horizontal_margin">
+        <TextView
+            android:id="@+id/DATE"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:text="January 10th 2016"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textSize="20dp" />
 
-
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_list_black_24dp" />
+        android:orientation="horizontal">
 
+
+        <Button
+            android:id="@+id/graphs"
+            android:layout_width="100dp"
+            android:layout_height="90dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/circle"
+            android:drawableTop="@drawable/ic_trending_up_black_24dp"
+            android:paddingTop="15dp"
+            android:text="Graphs"
+            android:textColor="#fff"
+            android:gravity="center"/>
+        <Button
+            android:id="@+id/sessions"
+            android:layout_width="100dp"
+            android:layout_height="90dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/circle"
+            android:drawableTop="@android:drawable/ic_menu_upload"
+            android:paddingTop="15dp"
+            android:text="sessions"
+            android:textColor="#fff"
+            android:gravity="center"/>
+    </LinearLayout>
+
+        <TextView
+            android:id="@+id/gambling_message"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-thin"
+            android:text="Feeling Lucky? Start a gambling session"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:maxLines="2"
+            />
+
+        <Button
+            android:id="@+id/start_gs"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dip"
+            android:background="@color/colorAccent"
+            android:text="@string/start_game_session"
+            android:textColor="@android:color/black" />
+
+
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone" />
 </android.support.design.widget.CoordinatorLayout>
+

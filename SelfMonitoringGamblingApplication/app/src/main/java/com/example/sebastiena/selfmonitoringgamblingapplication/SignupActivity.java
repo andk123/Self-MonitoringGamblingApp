@@ -16,10 +16,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import Objects.UserEntity;
 
 
 public class SignupActivity extends AppCompatActivity {
+
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,7 @@ public class SignupActivity extends AppCompatActivity {
                                     Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException().getMessage(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
+                                    createUserDb();
                                     startActivity(new Intent(SignupActivity.this, MainActivity.class));
                                     finish();
                                 }
@@ -78,8 +84,22 @@ public class SignupActivity extends AppCompatActivity {
 
                 // Perform action on click
             }
-        });
+        });}
 
+
+        public void createUserDb(){
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+            UserEntity user = new UserEntity(FirebaseAuth.getInstance().getCurrentUser().getEmail(),FirebaseAuth.getInstance().getCurrentUser().getUid());
+            DatabaseReference usersRef = mDatabase.child("users");
+            String encoded = EncodeString(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+            usersRef.child(encoded).setValue(user);
     }
+    public static String EncodeString(String string) {
+        return string.replace(".", ",");
+    }
+    public static String DecodeString(String string) {
+        return string.replace(",", ".");
+    }
+
 
 }

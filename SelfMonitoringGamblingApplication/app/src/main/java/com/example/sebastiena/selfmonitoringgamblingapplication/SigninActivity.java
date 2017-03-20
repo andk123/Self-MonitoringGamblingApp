@@ -28,11 +28,11 @@ public class SigninActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() != null) {
-            // Restores Sessions
-            //startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        //if (auth.getCurrentUser() != null) {
+            //Restores Sessions
+           // startActivity(new Intent(SigninActivity.this, MainActivity.class));
             //finish();
-        }
+        //}
 
         setContentView(R.layout.activity_signin);
 
