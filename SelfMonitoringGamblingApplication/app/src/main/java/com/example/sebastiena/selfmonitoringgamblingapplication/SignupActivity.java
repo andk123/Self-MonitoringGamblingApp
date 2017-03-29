@@ -76,7 +76,7 @@ public class SignupActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                                 } else {
                                     createUserDb();
-                                    startActivity(new Intent(SignupActivity.this, MainActivity.class));
+                                    startActivity(new Intent(SignupActivity.this, newMainActivity.class));
                                     finish();
                                 }
                             }

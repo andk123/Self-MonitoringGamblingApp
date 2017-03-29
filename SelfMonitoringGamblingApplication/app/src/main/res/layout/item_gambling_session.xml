@@ -1,6 +1,8 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@android:color/holo_orange_light"
+    >
 
     <TableRow
         android:layout_width="fill_parent"
@@ -8,14 +10,21 @@
 
         <TextView
             android:text="Gambling Session: "
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
             android:textSize="30dp"
+            android:textColor="@android:color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="1" />
 
         <TextView
             android:id="@+id/gsId"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
             android:textSize="30dp"
+            android:layout_gravity="left"
+            android:textColor="@android:color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="1" />
@@ -26,12 +35,17 @@
 
         <TextView
             android:text="Date: "
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="1" />
 
         <TextView
             android:id="@+id/date"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="1" />
@@ -41,12 +55,16 @@
 
         <TextView
             android:text="Game Type: "
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="1" />
 
         <TextView
             android:id="@+id/gameType"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="1" />
@@ -55,12 +73,16 @@
 
         <TextView
             android:text="Duration (Minutes): "
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="1" />
 
         <TextView
             android:id="@+id/duration"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="1" />
@@ -70,34 +92,42 @@
 
         <TextView
             android:text="Outcome:"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="1" />
 
         <TextView
             android:id="@+id/outcome"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="1" />
     </TableRow>
-
-
-
-
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
-
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
+    <TableRow>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:text="Edit"
+            android:layout_gravity="right"
             android:id="@+id/edit"
-            android:layout_column="2" />
+            android:layout_column="1"
+            android:background="@android:color/holo_orange_dark" />
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="@dimen/logo_w_h"
+            android:layout_gravity="left"
+            android:src="@drawable/dicesessions"
+            />
+
+
     </TableRow>
+
+
+
+
 
 </TableLayout>

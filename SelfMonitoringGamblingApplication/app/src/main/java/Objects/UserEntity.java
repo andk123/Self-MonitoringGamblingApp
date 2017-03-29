@@ -10,13 +10,53 @@ public class UserEntity {
     private String firstName;
     private String lastName;
     private String uid;
+    private String notifications;
+    private String yob;
+    private String sex;
 
     private int signinType;
+
+    public UserEntity() {
+
+    }
 
     public UserEntity(String email, String uid) {
         this.email = email;
         this.uid = uid;
     }
+
+    public UserEntity(String email, String uid, String notifications, String yob, String sex){
+        this.email = email;
+        this.uid = uid;
+        this.notifications = notifications;
+        this.yob = yob;
+        this.sex = sex;
+    }
+
+    public String getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(String notifications) {
+        this.notifications = notifications;
+    }
+
+    public String getYob() {
+        return yob;
+    }
+
+    public void setYob(String yob) {
+        this.yob = yob;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
 
     public String getUid() {
         return uid;

@@ -14,8 +14,9 @@ public class GraphsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graphs);
-        GraphView graph = (GraphView) findViewById(R.id.graph1);
+        GraphView graph1 = (GraphView) findViewById(R.id.graph1);
+        GraphView graph2 = (GraphView) findViewById(R.id.graph2);
         DatabaseHelper dbHelper = new DatabaseHelper(FirebaseDatabase.getInstance().getReference());
-        dbHelper.fetchDataAndDisplayGraph(GraphsActivity.this,graph);
+        dbHelper.fetchDataAndDisplayGraphs(GraphsActivity.this,graph1,graph2);
     }
 }

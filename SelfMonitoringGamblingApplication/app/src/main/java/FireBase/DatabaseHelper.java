@@ -1,7 +1,11 @@
 package FireBase;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +13,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 
 import com.example.sebastiena.selfmonitoringgamblingapplication.GamblingSessionActivity;
+import com.example.sebastiena.selfmonitoringgamblingapplication.GamblingSessionFragment;
 import com.example.sebastiena.selfmonitoringgamblingapplication.GraphsActivity;
 import com.example.sebastiena.selfmonitoringgamblingapplication.MainActivity;
 import com.example.sebastiena.selfmonitoringgamblingapplication.R;
@@ -23,12 +30,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.ValueDependentColor;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
+import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 
 import Objects.GamblingSessionEntity;
+import Objects.UserEntity;
 
 /**
  * Created by SebastienA on 2017-03-16.
@@ -44,6 +56,15 @@ public class DatabaseHelper {
     public DatabaseHelper(DatabaseReference db){
         this.db = db;
     }
+
+    public static String EncodeString(String string) {
+        return string.replace(".", ",");
+    }
+    public static String DecodeString(String string) {
+        return string.replace(",", ".");
+    }
+
+
 
     public boolean saveGamblingSession(GamblingSessionEntity entity){
         if (entity == null){
@@ -67,6 +88,29 @@ public class DatabaseHelper {
         return saved;
     }
 
+
+    public boolean updateUserEntity(UserEntity entity){
+        if (entity == null){
+            saved = false;
+        }else{
+            try{
+                DatabaseReference gsRef = db.child("users");
+
+                DatabaseReference entityRef = gsRef.child(EncodeString(entity.getEmail()));
+                entityRef.setValue(entity);
+                saved = true;
+            }catch(DatabaseException e){
+                e.printStackTrace();
+                saved = false;
+
+            }
+        }
+
+        return saved;
+    }
+
+
+
     public boolean updateGamblingSession(GamblingSessionEntity entity){
         if (entity == null){
             saved = false;
@@ -87,12 +131,38 @@ public class DatabaseHelper {
         return saved;
     }
 
+    public void fetchDataAndDisplayOutcome(final Activity act, final TextView outcome){
+        gsEntities.clear();
+        final ArrayList<GamblingSessionEntity> gsEntities = new ArrayList<>();
+
+        Query query = db.child("gamblingSession").orderByChild("uid").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    gsEntities.add(ds.getValue(GamblingSessionEntity.class));
+                }
+               int totalOutcome = 0;
+                for(GamblingSessionEntity entity : gsEntities){
+                    int moneyOutcome = Integer.parseInt(entity.getFinalAmount())-Integer.parseInt(entity.getStartingAmount());
+                    totalOutcome = totalOutcome + moneyOutcome;
+                }
+                outcome.setText("Your current balance is  " + Integer.toString(totalOutcome) +"$");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
 
+    }
 
 
-    public void fetchDataAndDisplayGraph (final Activity act, final GraphView graph){
+
+    public void fetchDataAndDisplayGraphs (final Activity act, final GraphView graph1, final GraphView graph2){
         gsEntities.clear();
         final ArrayList<GamblingSessionEntity> gsEntities = new ArrayList<>();
 
@@ -104,13 +174,46 @@ public class DatabaseHelper {
                     gsEntities.add(ds.getValue(GamblingSessionEntity.class));
                 }
                 LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
+                int gain = 0;
+                int loss = 0;
                 for(GamblingSessionEntity entity : gsEntities){
                     int moneyOutcome = Integer.parseInt(entity.getFinalAmount())-Integer.parseInt(entity.getStartingAmount());
+                    if (moneyOutcome > 0){
+                        gain = moneyOutcome + gain;
+                    } else{
+                        loss = Math.abs(moneyOutcome) + loss;
+                    }
                     int position = gsEntities.indexOf(entity);
                     DataPoint newPoint = new DataPoint(position,moneyOutcome);
                     series.appendData(newPoint,true,gsEntities.size());
                 }
-                graph.addSeries(series);
+                BarGraphSeries<DataPoint> bar = new BarGraphSeries<>(new DataPoint[] {
+                        new DataPoint(1, gain),
+                        new DataPoint(2, loss)
+                });
+               ;
+                bar.setValueDependentColor(new ValueDependentColor<DataPoint>() {
+                    @Override
+                    public int get(DataPoint data) {
+                        if(data.getX()==1){
+                            return Color.rgb(0,255,0);
+                        }else{
+                            return Color.rgb(255,0,0);
+                        }
+                    }
+                });
+                graph2.addSeries(bar);
+                graph2.setTitle("Gain vs Loss");
+                graph1.addSeries(series);
+                graph1.setTitle("Gambling Outcomes");
+                StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph2);
+                String[] stringList = {"Gain", "Loss"};
+                staticLabelsFormatter.setHorizontalLabels(stringList);
+                graph2.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+                graph2.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
+                GridLabelRenderer gridLabel = graph1.getGridLabelRenderer();
+                gridLabel.setHorizontalAxisTitle("Sessions");
+                gridLabel.setVerticalAxisTitle("Final Amount");
 
 
             }
@@ -125,7 +228,7 @@ public class DatabaseHelper {
 
     }
 
-    public void fetchDataAndDisplayList(final Activity act, final ListView listView){
+    public void fetchDataAndDisplayList(final Context c, final ListView listView){
         gsEntities.clear();
         final ArrayList<GamblingSessionEntity> gsEntities = new ArrayList<>();
 
@@ -136,7 +239,7 @@ public class DatabaseHelper {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     gsEntities.add(ds.getValue(GamblingSessionEntity.class));
                 }
-                GamblingSessionAdapter adapter = new GamblingSessionAdapter(act,gsEntities);
+                GamblingSessionAdapter adapter = new GamblingSessionAdapter(c,gsEntities);
                 listView.setAdapter(adapter);
 
             }
@@ -151,10 +254,11 @@ public class DatabaseHelper {
 }
 
 class GamblingSessionAdapter extends ArrayAdapter<GamblingSessionEntity> {
-    Activity activity;
-    public GamblingSessionAdapter(Activity act, ArrayList<GamblingSessionEntity> entities) {
-        super(act, 0, entities);
-        activity = act;
+    Context c;
+
+    public GamblingSessionAdapter(Context c, ArrayList<GamblingSessionEntity> entities) {
+        super(c, 0, entities);
+        this.c = c;
     }
 
     @Override
@@ -178,23 +282,27 @@ class GamblingSessionAdapter extends ArrayAdapter<GamblingSessionEntity> {
         date.setText(entity.getDate());
         gameType.setText(entity.getGame());
         duration.setText(Integer.toString(entity.getDuration()));
-        int moneyOutcome = Integer.parseInt(entity.getFinalAmount())-Integer.parseInt(entity.getStartingAmount());
+        int moneyOutcome = Integer.parseInt(entity.getFinalAmount()) - Integer.parseInt(entity.getStartingAmount());
         outcome.setText(Integer.toString(moneyOutcome));
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goTo = new Intent(activity,GamblingSessionActivity.class);
-                goTo.putExtra("GamblingSession",entity);
-                activity.startActivity(goTo);
+                Activity act = (Activity) c;
+                ((Activity) c).getIntent().putExtra("GamblingSession", entity);
+                Fragment fragment = (Fragment) GamblingSessionFragment.newInstance();
+                ((FragmentActivity) c).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.flContent, fragment)
+                        .commit();
+
 
             }
         });
-
-
 
 
         // Return the completed view to render on screen
         return convertView;
     }
 }
+
+

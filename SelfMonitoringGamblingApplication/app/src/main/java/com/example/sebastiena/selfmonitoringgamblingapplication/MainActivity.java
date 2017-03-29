@@ -5,13 +5,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import FireBase.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
     private Button gsButton;
     private Button sessionsButton;
     private Button graphsButton;
+    private TextView outcome;
+    private TextView date;
 
     private FirebaseAuth auth;
 
@@ -23,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
         gsButton = (Button) findViewById(R.id.start_gs);
         sessionsButton = (Button) findViewById(R.id.sessions);
         graphsButton = (Button) findViewById(R.id.graphs);
+        outcome = (TextView) findViewById(R.id.outcome);
+        date = (TextView) findViewById(R.id.date);
                 //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
@@ -47,6 +58,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        date.setText("Current date: " + getDate());
+        DatabaseHelper dbHelper = new DatabaseHelper(FirebaseDatabase.getInstance().getReference());
+        dbHelper.fetchDataAndDisplayOutcome(MainActivity.this,outcome);
+
+
+
+    }
+
+    public String getDate() {
+        Date date = new Date();
+        Date newDate = new Date(date.getTime() + (604800000L * 2) + (24 * 60 * 60));
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+        return dt.format(newDate);
 
     }
 }

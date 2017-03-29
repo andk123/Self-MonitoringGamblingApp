@@ -1,0 +1,20 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@android:color/holo_orange_dark"
+    android:padding="16dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:orientation="vertical"
+    android:gravity="bottom">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="GambTrax Menu"
+        android:fontFamily="sans-serif"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:textSize="22dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+</LinearLayout>

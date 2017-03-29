@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.example.sebastiena.selfmonitoringgamblingapplication.GamblingSessionFragment">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_horizontal_margin">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="30"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/activity_horizontal_margin">
+
+            <ImageView
+                android:layout_width="@dimen/logo_w_h"
+                android:layout_height="@dimen/logo_w_h"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="30dp"
+                android:src="@drawable/gamblingsession"
+                />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="20"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/activity_horizontal_margin">
+
+            <Button
+                android:id="@+id/start_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle"
+                android:text="@string/pick_time"
+                android:textColor="@android:color/black"
+                android:layout_marginRight="20dp"
+                />
+
+            <Button
+                android:id="@+id/end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle"
+                android:text="@string/projected_time"
+                android:textColor="@android:color/black"
+                />
+        </LinearLayout>
+
+
+
+        <Spinner
+            android:id="@+id/spinner_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_dropdown"
+            />
+
+
+        <Spinner
+            android:id="@+id/spinner_game"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_dropdown"
+            />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/starting_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/starting_amount"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@android:color/holo_orange_dark" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/final_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:hint="@string/final_amount"
+                android:imeActionId="@+id/login"
+                android:imeOptions="actionUnspecified"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@android:color/holo_orange_dark" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/submit_gs"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/holo_orange_light"
+            android:text="@string/submit_gs"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone" />
+</android.support.design.widget.CoordinatorLayout>

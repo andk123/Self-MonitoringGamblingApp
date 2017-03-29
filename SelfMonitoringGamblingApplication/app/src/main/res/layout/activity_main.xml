@@ -14,14 +14,33 @@
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
         <TextView
-            android:id="@+id/DATE"
+            android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:layout_weight="1"
-            android:text="January 10th 2016"
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearance"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:maxLines="2"/>
+        <TextView
+            android:id="@+id/outcome"
+            android:layout_width="wrap_content"
+            android:layout_height="4dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textSize="27dp"
+            android:maxLines="2"
+            />
+        <Button
+            android:id="@+id/settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dip"
+            android:layout_marginBottom="30dip"
+            android:background="@color/colorAccent"
+            android:text="Settings"
+            android:textColor="@android:color/black" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -31,35 +50,38 @@
 
         <Button
             android:id="@+id/graphs"
-            android:layout_width="100dp"
-            android:layout_height="90dp"
+            android:layout_width="90dp"
+            android:layout_height="100dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/circle"
             android:drawableTop="@drawable/ic_trending_up_black_24dp"
             android:paddingTop="15dp"
+            android:layout_marginBottom="10dp"
             android:text="Graphs"
             android:textColor="#fff"
             android:gravity="center"/>
         <Button
             android:id="@+id/sessions"
-            android:layout_width="100dp"
-            android:layout_height="90dp"
+            android:layout_width="90dp"
+            android:layout_height="100dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/circle"
-            android:drawableTop="@android:drawable/ic_menu_upload"
+            android:drawableTop="@drawable/ic_list_black_24dp"
             android:paddingTop="15dp"
             android:text="sessions"
+            android:layout_marginBottom="10dp"
             android:textColor="#fff"
             android:gravity="center"/>
     </LinearLayout>
 
         <TextView
+            android:layout_marginTop="2dp"
             android:id="@+id/gambling_message"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:layout_weight="1"
             android:fontFamily="sans-serif-thin"
-            android:text="Feeling Lucky? Start a gambling session"
+            android:text="Recently Gambled? Submit a gambling session"
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearance"
             android:textSize="20dp"

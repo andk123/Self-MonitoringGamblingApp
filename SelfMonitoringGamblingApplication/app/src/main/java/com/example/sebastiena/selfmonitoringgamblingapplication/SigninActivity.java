@@ -94,7 +94,7 @@ public class SigninActivity extends AppCompatActivity {
                                         Toast.makeText(SigninActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    Intent intent = new Intent(SigninActivity.this, MainActivity.class);
+                                    Intent intent = new Intent(SigninActivity.this, newMainActivity.class);
                                     startActivity(intent);
                                     finish();
                                 }
