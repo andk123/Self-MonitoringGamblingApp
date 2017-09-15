@@ -1,5 +1,6 @@
 package com.example.sebastiena.selfmonitoringgamblingapplication;
 
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TimePicker;
 
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -85,6 +87,7 @@ public class SessionsFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
 
     /**
      * This interface must be implemented by activities that contain this

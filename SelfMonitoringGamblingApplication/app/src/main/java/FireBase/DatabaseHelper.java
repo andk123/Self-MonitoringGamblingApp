@@ -271,14 +271,12 @@ class GamblingSessionAdapter extends ArrayAdapter<GamblingSessionEntity> {
         }
         // Lookup view for data population
         Button editButton = (Button) convertView.findViewById(R.id.edit);
-        TextView id = (TextView) convertView.findViewById(R.id.gsId);
         TextView date = (TextView) convertView.findViewById(R.id.date);
         TextView gameType = (TextView) convertView.findViewById(R.id.gameType);
         TextView duration = (TextView) convertView.findViewById(R.id.duration);
         TextView outcome = (TextView) convertView.findViewById(R.id.outcome);
 
         // Populate the data into the template view using the data object
-        id.setText(Integer.toString(position));
         date.setText(entity.getDate());
         gameType.setText(entity.getGame());
         duration.setText(Integer.toString(entity.getDuration()));
@@ -291,10 +289,9 @@ class GamblingSessionAdapter extends ArrayAdapter<GamblingSessionEntity> {
                 Activity act = (Activity) c;
                 ((Activity) c).getIntent().putExtra("GamblingSession", entity);
                 Fragment fragment = (Fragment) GamblingSessionFragment.newInstance();
-                ((FragmentActivity) c).getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.flContent, fragment)
-                        .commit();
-
+                // Insert the fragment by replacing any existing fragment
+                FragmentManager fragmentManager = ((FragmentActivity) c).getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
             }
         });

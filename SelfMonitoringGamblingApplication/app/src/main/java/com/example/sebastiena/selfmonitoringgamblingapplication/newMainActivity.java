@@ -168,6 +168,7 @@ public class newMainActivity extends AppCompatActivity implements GamblingSessio
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        fragment = getSupportFragmentManager().findFragmentById(R.id.flContent);
         GamblingSessionFragment gs = (GamblingSessionFragment) fragment;
         gs.onTimeSet(view,hourOfDay,minute);
     }

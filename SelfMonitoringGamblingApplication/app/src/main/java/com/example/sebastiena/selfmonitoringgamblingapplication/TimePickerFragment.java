@@ -22,6 +22,8 @@ public class TimePickerFragment extends DialogFragment  {
     private Activity mActivity;
     private OnTimeSetListener mListener;
 
+
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -45,7 +47,7 @@ public class TimePickerFragment extends DialogFragment  {
 
         // Create a new instance of TimePickerDialog and return it
 
-        return new TimePickerDialog(mActivity, mListener, hour, minute,
-                DateFormat.is24HourFormat(mActivity));
+        return new TimePickerDialog(getActivity(), mListener, hour, minute,
+                DateFormat.is24HourFormat(getActivity()));
     }
 }
