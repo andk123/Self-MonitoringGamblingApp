@@ -3,9 +3,11 @@ package FireBase;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import com.example.sebastiena.selfmonitoringgamblingapplication.GamblingSessionF
 import com.example.sebastiena.selfmonitoringgamblingapplication.GraphsActivity;
 import com.example.sebastiena.selfmonitoringgamblingapplication.MainActivity;
 import com.example.sebastiena.selfmonitoringgamblingapplication.R;
+import com.example.sebastiena.selfmonitoringgamblingapplication.newMainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -63,6 +66,87 @@ public class DatabaseHelper {
     public static String DecodeString(String string) {
         return string.replace(",", ".");
     }
+
+
+    public void displayDialog(final Activity act){
+        final ArrayList<GamblingSessionEntity> gsEntities = new ArrayList<>();
+
+        Query query = db.child("gamblingSession").orderByChild("uid").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    gsEntities.add(ds.getValue(GamblingSessionEntity.class));
+                }
+                if (gsEntities.size()%5 == 0){
+
+                    boolean didBetter = false;
+                    boolean firstTime = true;
+                    int spentAmount = 0;
+                    for (int i = gsEntities.size()-1; i> gsEntities.size()-6;i--){
+                        spentAmount = spentAmount + Integer.valueOf(gsEntities.get(i).getStartingAmount());
+                    }
+
+                    int previousSpentAmount = 0;
+                    if (gsEntities.size()>=10){
+                        firstTime = false;
+                        for (int i = gsEntities.size()-6; i>= gsEntities.size()-10;i--){
+                            previousSpentAmount = previousSpentAmount + Integer.valueOf(gsEntities.get(i).getStartingAmount());
+                        }
+
+                    }
+
+                    if (spentAmount < previousSpentAmount){
+                        didBetter = true;
+                    }
+
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(act);
+
+                    if (firstTime){
+                        builder1.setMessage("This is your fifth session. A normal person gambles around : " + spentAmount *0.75 + ". You gambled : " + spentAmount);
+                    }else {
+                        if (didBetter){
+                            builder1.setMessage("Congrats you've decreased your gambling in these last 5 sessions. You went from : " + previousSpentAmount + " to : " + spentAmount);
+
+                        }else{
+
+                            builder1.setMessage("You went over your previous 5 gambling sessions amount spent. You went from : " + previousSpentAmount + " to : " + spentAmount);
+
+
+                        }
+                    }
+                    builder1.setCancelable(true);
+
+                    builder1.setPositiveButton(
+                            "Yes",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    builder1.setNegativeButton(
+                            "No",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
 
 
 

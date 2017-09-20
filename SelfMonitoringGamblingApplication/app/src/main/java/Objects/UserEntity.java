@@ -14,6 +14,17 @@ public class UserEntity {
     private String yob;
     private String sex;
 
+    public String getSessionsAmount() {
+        return sessionsAmount;
+    }
+
+    public void setSessionsAmount(String sessionsAmount) {
+        this.sessionsAmount = sessionsAmount;
+    }
+
+    private String sessionsAmount;
+    private String thresholdValue;
+
     private int signinType;
 
     public UserEntity() {

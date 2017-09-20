@@ -1,12 +1,15 @@
 package com.example.sebastiena.selfmonitoringgamblingapplication;
 
+import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -238,6 +241,7 @@ public class GamblingSessionFragment extends Fragment implements TimePickerDialo
                     if(dbHelper.updateGamblingSession(passedEntity)){
                         Toast.makeText(GamblingSessionFragment.super.getContext(), "Gambling Session Updated", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(GamblingSessionFragment.super.getContext(), newMainActivity.class);
+                        intent.putExtra("Unique","FromGs");
                         startActivity(intent);
 
 
@@ -254,8 +258,12 @@ public class GamblingSessionFragment extends Fragment implements TimePickerDialo
 
                     if (dbHelper.saveGamblingSession(gsToSave)) {
                         Toast.makeText(GamblingSessionFragment.super.getContext(), "Gambling Session Saved", Toast.LENGTH_LONG).show();
+
+
                         Intent intent = new Intent(GamblingSessionFragment.super.getContext(), newMainActivity.class);
+                        intent.putExtra("Unique","FromGs");
                         startActivity(intent);
+
 
 
                     } else {
@@ -276,6 +284,10 @@ public class GamblingSessionFragment extends Fragment implements TimePickerDialo
 
         return view;
     }
+
+
+
+
     public GamblingSessionEntity createGamblingSessionEntity(String startingAmount, String finalAmount, String mode, String game, int duration, String stringDate) {
         String startTime = startHour + ":" + startMin;
         String endTime = endHour + ":" + endMin;

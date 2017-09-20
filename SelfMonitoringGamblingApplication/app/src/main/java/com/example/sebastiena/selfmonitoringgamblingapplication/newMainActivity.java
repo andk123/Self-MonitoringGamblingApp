@@ -1,6 +1,7 @@
 package com.example.sebastiena.selfmonitoringgamblingapplication;
 
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -19,8 +21,11 @@ import android.widget.TimePicker;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
+
+import FireBase.DatabaseHelper;
 
 public class newMainActivity extends AppCompatActivity implements GamblingSessionFragment.OnFragmentInteractionListener,SessionsFragment.OnFragmentInteractionListener, HomeFragment.OnFragmentInteractionListener, GraphsFragment.OnFragmentInteractionListener,TimePickerDialog.OnTimeSetListener {
     private DrawerLayout mDrawer;
@@ -50,8 +55,26 @@ public class newMainActivity extends AppCompatActivity implements GamblingSessio
         setupDrawerContent(nvView);
         getSupportFragmentManager().beginTransaction().add(R.id.flContent, new HomeFragment()).commit();
 
+        Intent intent = this.getIntent();
+
+        /* Obtain String from Intent  */
+        if(intent.getExtras()!= null)
+        {
+            String strdata = intent.getExtras().getString("Unique");
+            if(strdata.equals("FromGs"))
+            {
+                DatabaseHelper dbHelper = new DatabaseHelper(FirebaseDatabase.getInstance().getReference());
+                dbHelper.displayDialog(newMainActivity.this);
+            }
+
+            }
+
+
+
 
     }
+
+
     private ActionBarDrawerToggle setupDrawerToggle() {
         // NOTE: Make sure you pass in a valid toolbar reference.  ActionBarDrawToggle() does not require it
         // and will not render the hamburger icon without it.

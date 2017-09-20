@@ -120,7 +120,7 @@ public class SettingsFragment extends Fragment {
                     return;
 
                 }
-                if (spinnotif.equals("Notificaitons")) {
+                if (spinnotif.equals("Notifications")) {
                     Toast.makeText(SettingsFragment.super.getContext(), "Choose Notifications", Toast.LENGTH_SHORT).show();
                     return;
 
