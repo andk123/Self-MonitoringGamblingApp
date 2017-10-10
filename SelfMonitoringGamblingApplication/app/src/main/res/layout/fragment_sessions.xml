@@ -16,6 +16,7 @@
             android:layout_weight="1" android:background="#FF9A00"
             android:textColor="#000000"
             android:padding="10dip" android:gravity="center"
+            android:layout_width="80dp"
             />
 
 

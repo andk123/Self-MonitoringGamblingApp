@@ -12,28 +12,39 @@
             android:id="@+id/date"
             android:layout_weight="1"
             android:textColor="#000000"
-            android:padding="10dip" android:gravity="center"
+            android:padding="10dp" android:gravity="left"
+            android:layout_marginStart="5dp"
+            android:layout_width="20dip"
+            android:layout_height="wrap_content"
             />
 
 
         <TextView
             android:id="@+id/gameType"
             android:layout_weight="1"
+            android:gravity="left"
+            android:padding="10dp"
             android:textColor="#000000"
-            android:padding="10dip" android:gravity="center"
-         />
+            android:layout_marginStart="-10dp"
+            android:layout_marginEnd="-15dp"
+            android:layout_width="1dip"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/duration"
             android:layout_weight="1"
             android:textColor="#000000"
-            android:padding="10dip" android:gravity="center"
+            android:padding="10dp" android:gravity="center"
+            android:layout_width="1dip"
+            android:layout_height="wrap_content"
        />
         <TextView
             android:id="@+id/outcome"
             android:layout_weight="1"
             android:textColor="#000000"
-            android:padding="10dip" android:gravity="center"
+            android:padding="10dp" android:gravity="center"
+            android:layout_width="1dip"
+            android:layout_height="wrap_content"
             />
 
     </TableRow>
