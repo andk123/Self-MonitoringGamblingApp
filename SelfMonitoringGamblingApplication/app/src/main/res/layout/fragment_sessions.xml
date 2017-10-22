@@ -28,17 +28,19 @@
             />
 
         <TextView
+            android:id="@+id/column4" android:text="Duration"
+            android:layout_weight="1" android:background="#FF9A00"
+            android:textColor="#000000"
+            android:padding="10dip" android:gravity="center"
+            />
+
+        <TextView
             android:id="@+id/column3" android:text="Outcome"
             android:layout_weight="1" android:background="#FF9A00"
             android:textColor="#000000"
             android:padding="10dip" android:gravity="center"
            />
-        <TextView
-            android:id="@+id/column4" android:text="Duration"
-            android:layout_weight="1" android:background="#FF9A00"
-            android:textColor="#000000"
-            android:padding="10dip" android:gravity="center"
-        />
+
 
     </TableRow>
 

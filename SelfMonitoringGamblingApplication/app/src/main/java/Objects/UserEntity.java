@@ -6,7 +6,6 @@ package Objects;
 
 public class UserEntity {
     //TODO: Possibly photo URL
-    private String email;
     private String firstName;
     private String lastName;
     private String uid;
@@ -31,13 +30,11 @@ public class UserEntity {
 
     }
 
-    public UserEntity(String email, String uid) {
-        this.email = email;
+    public UserEntity( String uid) {
         this.uid = uid;
     }
 
-    public UserEntity(String email, String uid, String notifications, String yob, String sex){
-        this.email = email;
+    public UserEntity(String uid, String notifications, String yob, String sex){
         this.uid = uid;
         this.notifications = notifications;
         this.yob = yob;
@@ -77,13 +74,6 @@ public class UserEntity {
         this.uid = uid;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getFirstName() {
         return firstName;

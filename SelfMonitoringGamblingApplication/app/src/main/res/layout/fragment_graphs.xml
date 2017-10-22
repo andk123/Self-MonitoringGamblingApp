@@ -24,18 +24,16 @@
                 android:layout_marginBottom="30dp"
                 android:src="@drawable/chips"
                 />
-            <com.jjoe64.graphview.GraphView
+
+            <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart"
+            android:layout_width="match_parent"
+            android:layout_height="300dip" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pie_chart"
                 android:layout_width="match_parent"
-                android:layout_height="300dip"
-                android:id="@+id/graph1"
-                android:layout_marginBottom="20dp"/>
-            <com.jjoe64.graphview.GraphView
-                android:layout_width="match_parent"
-                android:layout_height="300dip"
-                android:id="@+id/graph2" />
-
-
-
+                android:layout_height="300dip" />
 
         </LinearLayout>
     </ScrollView>

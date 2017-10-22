@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -21,9 +22,26 @@ import android.support.v4.app.FragmentManager;
 import com.example.sebastiena.selfmonitoringgamblingapplication.GamblingSessionActivity;
 import com.example.sebastiena.selfmonitoringgamblingapplication.GamblingSessionFragment;
 import com.example.sebastiena.selfmonitoringgamblingapplication.GraphsActivity;
+import com.example.sebastiena.selfmonitoringgamblingapplication.GraphsFragment;
 import com.example.sebastiena.selfmonitoringgamblingapplication.MainActivity;
 import com.example.sebastiena.selfmonitoringgamblingapplication.R;
 import com.example.sebastiena.selfmonitoringgamblingapplication.newMainActivity;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.MarkerView;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.MPPointF;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -40,7 +58,9 @@ import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import Objects.GamblingSessionEntity;
 import Objects.UserEntity;
@@ -49,6 +69,53 @@ import Objects.UserEntity;
  * Created by SebastienA on 2017-03-16.
  */
 
+
+ class MyValueFormatter implements IAxisValueFormatter {
+
+
+    @Override
+    public String getFormattedValue(float value, AxisBase axis) {
+        return String.valueOf((int)value);
+    }
+}
+
+ class CustomMarkerView extends MarkerView {
+
+     private TextView tvContent;
+     private ArrayList<GamblingSessionEntity> gsEntities;
+
+    public CustomMarkerView (Context context, int layoutResource, ArrayList<GamblingSessionEntity> gsEntities ) {
+        super(context, layoutResource);
+        // this markerview only displays a textview
+        tvContent = (TextView) findViewById(R.id.tvContent);
+        this.gsEntities = gsEntities;
+
+    }
+
+    // callbacks everytime the MarkerView is redrawn, can be used to update the
+    // content (user-interface)
+    @Override
+    public void refreshContent(final Entry e, Highlight highlight) {
+
+                int position = (int) e.getX();
+                GamblingSessionEntity gs = gsEntities.get(position);
+                String date = gs.getDate();
+                String game = gs.getGame();
+                String mode = gs.getMode();
+                String duration = Integer.toString(gs.getDuration());
+                
+                String infoText = "Outcome: "+ e.getY()+ "\n" + "Date: " +date + "\n" + "Game: " +game +  "\n" + "Mode: " +mode +"\n" + "Duration: " +duration;
+
+                tvContent.setSingleLine(false);
+                tvContent.setMaxLines(20);
+                tvContent.setText(infoText.replace("\\n", "\n")); // set the entry-value as the display text
+
+
+
+    }
+
+
+}
 public class DatabaseHelper {
 
     DatabaseReference db;
@@ -103,7 +170,14 @@ public class DatabaseHelper {
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(act);
 
                     if (firstTime){
-                        builder1.setMessage("This is your fifth session. A normal person gambles around : " + spentAmount *0.75 + ". You gambled : " + spentAmount);
+
+                        if (spentAmount > 50){
+                            builder1.setMessage("This is your fifth session. A normal person gambles around : " + spentAmount *0.75 + ". You gambled : " + spentAmount);
+
+                        }else{
+                            builder1.setMessage("This is your fifth session. You've gambled : " + spentAmount  );
+
+                        }
                     }else {
                         if (didBetter){
                             builder1.setMessage("Congrats you've decreased your gambling in these last 5 sessions. You went from : " + previousSpentAmount + " to : " + spentAmount);
@@ -180,7 +254,7 @@ public class DatabaseHelper {
             try{
                 DatabaseReference gsRef = db.child("users");
 
-                DatabaseReference entityRef = gsRef.child(EncodeString(entity.getEmail()));
+                DatabaseReference entityRef = gsRef.child(entity.getUid());
                 entityRef.setValue(entity);
                 saved = true;
             }catch(DatabaseException e){
@@ -246,9 +320,10 @@ public class DatabaseHelper {
 
 
 
-    public void fetchDataAndDisplayGraphs (final Activity act, final GraphView graph1, final GraphView graph2){
+    public void fetchDataAndDisplayGraphs (final Activity act, final PieChart piechart, final LineChart lineChart){
         gsEntities.clear();
         final ArrayList<GamblingSessionEntity> gsEntities = new ArrayList<>();
+
 
         Query query = db.child("gamblingSession").orderByChild("uid").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
         query.addValueEventListener(new ValueEventListener() {
@@ -257,9 +332,9 @@ public class DatabaseHelper {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     gsEntities.add(ds.getValue(GamblingSessionEntity.class));
                 }
-                LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
                 int gain = 0;
                 int loss = 0;
+                List<Entry> entriesLine = new ArrayList<Entry>();
                 for(GamblingSessionEntity entity : gsEntities){
                     int moneyOutcome = Integer.parseInt(entity.getFinalAmount())-Integer.parseInt(entity.getStartingAmount());
                     if (moneyOutcome > 0){
@@ -267,15 +342,78 @@ public class DatabaseHelper {
                     } else{
                         loss = Math.abs(moneyOutcome) + loss;
                     }
+
                     int position = gsEntities.indexOf(entity);
-                    DataPoint newPoint = new DataPoint(position,moneyOutcome);
-                    series.appendData(newPoint,true,gsEntities.size());
+                    Entry newEntry = new Entry(position,moneyOutcome);
+
+                    entriesLine.add(newEntry);
                 }
+
+                LineDataSet lineDataSet = new LineDataSet(entriesLine,"Sessions");
+                LineData lineData = new LineData(lineDataSet);
+                lineChart.setData(lineData);
+                lineChart.setTouchEnabled(true);
+                lineChart.setHighlightPerTapEnabled(true);
+                CustomMarkerView mv = new CustomMarkerView(act, R.layout.marker_layout, gsEntities);
+                lineChart.setMarker(mv);
+                Description description1 = new Description();
+                description1.setText("Gambling Sessions");
+                lineChart.setDescription(description1);
+                lineChart.getXAxis().setLabelCount(gsEntities.size()+2, true);
+                lineChart.getXAxis().setAxisMinimum(0f);
+                lineChart.getXAxis().setAxisMaximum(gsEntities.size()+1);
+                lineChart.getXAxis().setValueFormatter(new MyValueFormatter());
+                lineChart.invalidate();
+
+//                lineChart.isHighlightPerTapEnabled();
+//                lineChart.setTouchEnabled(true);
+//                lineChart.setDragEnabled(true);
+//                lineChart.setScaleEnabled(true);
+//                lineChart.setDrawGridBackground(false);
+//                lineChart.setPinchZoom(true);
+//                lineChart.setData(lineData);
+//                lineChart.invalidate();
+
+
+
+
+
                 BarGraphSeries<DataPoint> bar = new BarGraphSeries<>(new DataPoint[] {
                         new DataPoint(1, gain),
                         new DataPoint(2, loss)
                 });
-               ;
+                Description description = new Description();
+                description.setText("Performance from gambling sessions played");
+                piechart.setDescription(description);
+                // enable hole and configure
+                piechart.setDrawHoleEnabled(true);
+                piechart.setHoleRadius(7);
+                piechart.setTransparentCircleRadius(10);
+
+                // enable rotation of the chart by touch
+                piechart.setRotationAngle(0);
+                piechart.setRotationEnabled(true);
+
+                ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
+                if (gain == 0){
+                    entries.add(new PieEntry(gain,""));
+                }else{
+                    entries.add(new PieEntry(gain,"Gain"));
+                }
+                if (loss == 0){
+                    entries.add(new PieEntry(loss,""));
+                }else{
+                    entries.add(new PieEntry(loss,"Loss"));
+                }
+
+                PieDataSet dataSet = new PieDataSet(entries, "Outcome");
+                dataSet.setColors(new int[] {Color.GREEN,Color.RED });
+                PieData data = new PieData();
+                data.setDataSet(dataSet);
+                piechart.setData(data);
+                piechart.invalidate();
+
+
                 bar.setValueDependentColor(new ValueDependentColor<DataPoint>() {
                     @Override
                     public int get(DataPoint data) {
@@ -286,18 +424,7 @@ public class DatabaseHelper {
                         }
                     }
                 });
-                graph2.addSeries(bar);
-                graph2.setTitle("Gain vs Loss");
-                graph1.addSeries(series);
-                graph1.setTitle("Gambling Outcomes");
-                StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph2);
-                String[] stringList = {"Gain", "Loss"};
-                staticLabelsFormatter.setHorizontalLabels(stringList);
-                graph2.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
-                graph2.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
-                GridLabelRenderer gridLabel = graph1.getGridLabelRenderer();
-                gridLabel.setHorizontalAxisTitle("Sessions");
-                gridLabel.setVerticalAxisTitle("Final Amount");
+
 
 
             }

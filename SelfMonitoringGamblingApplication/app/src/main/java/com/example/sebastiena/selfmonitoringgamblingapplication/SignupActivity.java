@@ -89,16 +89,9 @@ public class SignupActivity extends AppCompatActivity {
 
         public void createUserDb(){
             mDatabase = FirebaseDatabase.getInstance().getReference();
-            UserEntity user = new UserEntity(FirebaseAuth.getInstance().getCurrentUser().getEmail(),FirebaseAuth.getInstance().getCurrentUser().getUid());
+            UserEntity user = new UserEntity(FirebaseAuth.getInstance().getCurrentUser().getUid());
             DatabaseReference usersRef = mDatabase.child("users");
-            String encoded = EncodeString(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-            usersRef.child(encoded).setValue(user);
-    }
-    public static String EncodeString(String string) {
-        return string.replace(".", ",");
-    }
-    public static String DecodeString(String string) {
-        return string.replace(",", ".");
+            usersRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user);
     }
 
 

@@ -125,7 +125,7 @@ public class SettingsFragment extends Fragment {
                     return;
 
                 }
-                UserEntity user = new UserEntity(FirebaseAuth.getInstance().getCurrentUser().getEmail(),FirebaseAuth.getInstance().getCurrentUser().getUid(),spinnotif,yob,spinsex);
+                UserEntity user = new UserEntity(FirebaseAuth.getInstance().getCurrentUser().getUid(),spinnotif,yob,spinsex);
                 DatabaseHelper dbHelper = new DatabaseHelper(FirebaseDatabase.getInstance().getReference());
                 if(dbHelper.updateUserEntity(user)){
                     Toast.makeText(SettingsFragment.super.getContext(), "User Settings Updated", Toast.LENGTH_LONG).show();

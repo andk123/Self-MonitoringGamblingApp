@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.google.firebase.database.FirebaseDatabase;
 import com.jjoe64.graphview.GraphView;
 
@@ -56,10 +58,10 @@ public class GraphsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_graphs, container, false);
 
-        GraphView graph1 = (GraphView) view.findViewById(R.id.graph1);
-        GraphView graph2 = (GraphView) view.findViewById(R.id.graph2);
+        PieChart pieChart = (PieChart) view.findViewById(R.id.pie_chart);
+        LineChart lineChart = (LineChart) view.findViewById(R.id.line_chart);
         DatabaseHelper dbHelper = new DatabaseHelper(FirebaseDatabase.getInstance().getReference());
-        dbHelper.fetchDataAndDisplayGraphs(super.getActivity(),graph1,graph2);
+        dbHelper.fetchDataAndDisplayGraphs(super.getActivity(),pieChart,lineChart);
         return view;
     }
 
