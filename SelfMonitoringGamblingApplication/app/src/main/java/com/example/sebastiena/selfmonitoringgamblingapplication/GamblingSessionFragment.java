@@ -307,6 +307,10 @@ public class GamblingSessionFragment extends Fragment implements TimePickerDialo
 
     public int calcDifTime() {
         int difHour = endHour - startHour;
+        //Make sure we have no negative duration
+        if (difHour < 0){
+            difHour = 24 + difHour;
+        }
         int difMin = endMin - startMin;
 
         return difHour * 60 + difMin;
