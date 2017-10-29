@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/white"
+        android:background="@drawable/gradient_background"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
@@ -25,7 +25,7 @@
             android:textSize="25dp"
             android:fontFamily="sans-serif"
             android:textStyle="bold"
-            android:textColor="@android:color/holo_orange_dark"
+            android:textColor="@color/colorText"
             android:maxLines="2"/>
 
         <ImageView
@@ -48,7 +48,7 @@
             android:maxLines="2"
             android:fontFamily="sans-serif"
             android:textStyle="bold"
-            android:textColor="@android:color/holo_orange_dark"
+            android:textColor="@color/colorText"
             />
 
 

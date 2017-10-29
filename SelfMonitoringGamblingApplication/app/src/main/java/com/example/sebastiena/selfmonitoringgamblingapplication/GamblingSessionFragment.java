@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -52,6 +53,8 @@ public class GamblingSessionFragment extends Fragment implements TimePickerDialo
     private DatabaseReference mDatabase;
     private ProgressBar progressBar;
     boolean isUpdate = false;
+    TextView timeStarts = null;
+    TextView timeEnds = null;
 
 
     private OnFragmentInteractionListener mListener;
@@ -86,6 +89,8 @@ public class GamblingSessionFragment extends Fragment implements TimePickerDialo
         final Button buttonSubmit = (Button) view.findViewById(R.id.submit_gs);
         final Button startButton = (Button) view.findViewById(R.id.start_time);
         final Button endButton = (Button) view.findViewById(R.id.end_time);
+        timeStarts = (TextView) view.findViewById(R.id.start_time_text);
+        timeEnds = (TextView) view.findViewById(R.id.end_time_text);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
         // Spinner Drop down elements
@@ -325,11 +330,24 @@ public class GamblingSessionFragment extends Fragment implements TimePickerDialo
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // Do something with the time chosen by the user
         if (isStart) {
+            String dayRange = "am";
             startHour = hourOfDay;
             startMin = minute;
+            if (startHour > 11) {
+                dayRange = "pm";
+                startHour = (startHour == 12) ? 12 : startHour - 12;
+            }
+
+            timeStarts.setText(startHour + ":" + startMin + dayRange);
         } else {
+            String dayRange = "am";
             endHour = hourOfDay;
             endMin = minute;
+            if (endHour > 11) {
+                dayRange = "pm";
+                endHour = (endHour == 12) ? 12 : endHour - 12;
+            }
+            timeEnds.setText(endHour + ":" + endMin + dayRange);
 
         }
 

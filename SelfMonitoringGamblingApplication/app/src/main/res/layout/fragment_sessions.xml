@@ -4,7 +4,7 @@
     android:id="@+id/activity_sessions"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_orange_light"
+    android:background="@color/colorPrimary"
     tools:context="com.example.sebastiena.selfmonitoringgamblingapplication.SessionsFragment">
     <TableRow
         android:id="@+id/tableRow1"
@@ -13,7 +13,7 @@
 
         <TextView
             android:id="@+id/column1" android:text="Date"
-            android:layout_weight="1" android:background="#FF9A00"
+            android:layout_weight="1" android:background="@color/colorCircle"
             android:textColor="#000000"
             android:padding="10dip" android:gravity="center"
             android:layout_width="80dp"
@@ -22,21 +22,21 @@
 
         <TextView
             android:id="@+id/column2" android:text="Game"
-            android:layout_weight="1" android:background="#FF9A00"
+            android:layout_weight="1" android:background="@color/colorCircle"
             android:textColor="#000000"
             android:padding="10dip" android:gravity="center"
             />
 
         <TextView
             android:id="@+id/column4" android:text="Duration"
-            android:layout_weight="1" android:background="#FF9A00"
+            android:layout_weight="1" android:background="@color/colorCircle"
             android:textColor="#000000"
             android:padding="10dip" android:gravity="center"
             />
 
         <TextView
             android:id="@+id/column3" android:text="Outcome"
-            android:layout_weight="1" android:background="#FF9A00"
+            android:layout_weight="1" android:background="@color/colorCircle"
             android:textColor="#000000"
             android:padding="10dip" android:gravity="center"
            />

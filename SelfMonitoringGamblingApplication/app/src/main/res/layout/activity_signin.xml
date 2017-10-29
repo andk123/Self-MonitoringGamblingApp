@@ -7,26 +7,35 @@
     android:fitsSystemWindows="true"
     tools:context="com.example.sebastiena.selfmonitoringgamblingapplication.SigninActivity">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone" />
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/white"
+        android:background="@drawable/gradient_background2"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
+
         <TextView
             android:id="@+id/date"
-            android:text="GambTrax"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:layout_weight="1"
-            android:gravity="center"
-            android:textAppearance="?android:attr/textAppearance"
-            android:textSize="32dp"
             android:fontFamily="sans-serif"
-            android:textStyle="bold"
-            android:textColor="@android:color/holo_orange_dark"
-            android:maxLines="2"/>
+            android:gravity="center"
+            android:maxLines="2"
+            android:text="GambTrax"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textColor="@color/colorText"
+            android:textSize="32dp"
+            android:textStyle="bold" />
 
         <ImageView
             android:layout_width="@dimen/logo_w_h"
@@ -46,7 +55,7 @@
                 android:layout_marginBottom="10dp"
                 android:hint="@string/hint_email"
                 android:inputType="textEmailAddress"
-                android:textColor="@android:color/holo_orange_dark"
+                android:textColor="@color/colorText"
                 android:textColorHint="@android:color/white" />
         </android.support.design.widget.TextInputLayout>
 
@@ -61,7 +70,7 @@
                 android:layout_marginBottom="10dp"
                 android:hint="@string/hint_password"
                 android:inputType="textPassword"
-                android:textColor="@android:color/holo_orange_dark"
+                android:textColor="@color/colorText"
                 android:textColorHint="@android:color/white" />
         </android.support.design.widget.TextInputLayout>
 
@@ -72,7 +81,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
-            android:background="@android:color/holo_orange_dark"
+            android:background="@drawable/gradient_button2"
             android:text="@string/btn_login"
             android:textColor="@android:color/black" />
 
@@ -84,7 +93,7 @@
             android:background="@null"
             android:text="@string/btn_forgot_password"
             android:textAllCaps="false"
-            android:textColor="@android:color/holo_orange_dark" />
+            android:textColor="@color/colorText" />
 
         <!-- Link to Login Screen -->
 
@@ -96,16 +105,8 @@
             android:background="@null"
             android:text="@string/btn_link_to_register"
             android:textAllCaps="false"
-            android:textColor="@android:color/holo_orange_dark"
+            android:textColor="@color/colorText"
             android:textSize="15dp" />
     </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_gravity="center|bottom"
-        android:layout_marginBottom="20dp"
-        android:visibility="gone" />
 </android.support.design.widget.CoordinatorLayout>
 
