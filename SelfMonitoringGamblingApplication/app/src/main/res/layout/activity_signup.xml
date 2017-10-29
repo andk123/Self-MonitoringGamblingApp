@@ -58,6 +58,29 @@
 
         </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/yob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/yob"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@android:color/holo_orange_dark" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Spinner
+            android:id="@+id/spinner_sex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_dropdown"
+            />
+
         <Button
             android:id="@+id/sign_up_button"
             style="?android:textAppearanceSmall"

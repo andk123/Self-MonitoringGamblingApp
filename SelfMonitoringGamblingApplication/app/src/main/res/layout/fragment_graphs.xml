@@ -25,11 +25,22 @@
                 android:src="@drawable/chips"
                 />
 
+            <TextView
+                android:id="@+id/text_view_1"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Session Outcomes" />
+
             <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/line_chart"
             android:layout_width="match_parent"
             android:layout_height="300dip" />
 
+            <TextView
+                android:id="@+id/text_view_2"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Overall Performance" />
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pie_chart"
                 android:layout_width="match_parent"
