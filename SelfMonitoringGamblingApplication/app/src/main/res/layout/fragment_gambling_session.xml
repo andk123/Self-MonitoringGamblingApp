@@ -17,12 +17,13 @@
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="fill_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@color/white"
+            android:background="@drawable/gambling"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="@dimen/activity_horizontal_margin">
@@ -58,7 +59,7 @@
                     android:id="@+id/start_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="30dp"
                     android:background="@drawable/button"
                     android:text="@string/pick_time"
                     android:textColor="@android:color/black" />
@@ -76,22 +77,25 @@
 
                 <TextView
                     android:id="@+id/start_time_text"
-                    android:textColor="@android:color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="28dp"
-                    android:layout_below="@id/start_time"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignStart="@+id/start_time" />
+                    android:layout_alignStart="@+id/start_time"
+                    android:layout_below="@id/start_time"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@color/gradient_end3"
+                    android:textSize="22sp" />
 
                 <TextView
                     android:id="@+id/end_time_text"
-                    android:textColor="@android:color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="28dp"
+                    android:layout_alignEnd="@+id/end_time"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignEnd="@+id/end_time" />
+                    android:layout_below="@id/end_time"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/gradient_end3"
+                    android:textSize="22sp" />
 
             </RelativeLayout>
 
@@ -110,7 +114,8 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/gradient_end3">
 
                 <EditText
                     android:id="@+id/starting_amount"
@@ -120,13 +125,14 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@android:color/holo_orange_dark" />
+                    android:textColor="@color/gradient_end3" />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/gradient_end3">
 
                 <EditText
                     android:id="@+id/final_amount"
@@ -139,7 +145,7 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@android:color/holo_orange_dark" />
+                    android:textColor="@color/gradient_end3" />
 
             </android.support.design.widget.TextInputLayout>
 

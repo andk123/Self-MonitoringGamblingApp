@@ -10,6 +10,8 @@
     <color name="gradient_end">#0cebeb</color>
     <color name="gradient_start2">#0bc5c5</color>
     <color name="gradient_end2">#a9fae5</color>
+    <color name="gradient_start3">#999999</color>
+    <color name="gradient_end3">#eeeeee</color>
     <color name="bg_login">#26ae90</color>
     <color name="bg_register">#2e3237</color>
     <color name="bg_main">#428bca</color>
