@@ -102,7 +102,15 @@ import Objects.UserEntity;
                 String date = gs.getDate();
                 String game = gs.getGame();
                 String mode = gs.getMode();
-                String duration = Integer.toString(gs.getDuration());
+                String duration;
+                if(gs.getDuration()>60){
+                    int hours = gs.getDuration()/60;
+                    int minutes = gs.getDuration()%60;
+                    duration= Integer.toString(hours) +"h " + Integer.toString(minutes) + "m";
+                }else{
+                     duration = Integer.toString(gs.getDuration()) + "m";
+                }
+
                 
                 String infoText = "Outcome: "+ e.getY()+ "\n" + "Date: " +date + "\n" + "Game: " +game +  "\n" + "Mode: " +mode +"\n" + "Duration: " +duration;
 
@@ -363,16 +371,9 @@ public class DatabaseHelper {
                 lineChart.getXAxis().setAxisMinimum(0f);
                 lineChart.getXAxis().setAxisMaximum(gsEntities.size()+1);
                 lineChart.getXAxis().setValueFormatter(new MyValueFormatter());
+                lineChart.setPinchZoom(false);
                 lineChart.invalidate();
 
-//                lineChart.isHighlightPerTapEnabled();
-//                lineChart.setTouchEnabled(true);
-//                lineChart.setDragEnabled(true);
-//                lineChart.setScaleEnabled(true);
-//                lineChart.setDrawGridBackground(false);
-//                lineChart.setPinchZoom(true);
-//                lineChart.setData(lineData);
-//                lineChart.invalidate();
 
 
 

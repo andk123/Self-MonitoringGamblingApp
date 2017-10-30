@@ -34,9 +34,16 @@ public class UserEntity {
         this.uid = uid;
     }
 
+
+
     public UserEntity(String uid, String notifications, String yob, String sex){
         this.uid = uid;
         this.notifications = notifications;
+        this.yob = yob;
+        this.sex = sex;
+    }
+    public UserEntity(String uid, String yob, String sex){
+        this.uid = uid;
         this.yob = yob;
         this.sex = sex;
     }
