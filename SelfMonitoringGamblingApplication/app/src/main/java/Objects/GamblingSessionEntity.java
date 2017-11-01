@@ -28,6 +28,7 @@ public class GamblingSessionEntity implements Serializable{
         this.game = game;
         this.startingAmount = startingAmount;
         this.finalAmount = finalAmount;
+        this.outcome = outcome;
         this.startTime = startTime;
         this.endTime = endTime;
         this.duration = duration;

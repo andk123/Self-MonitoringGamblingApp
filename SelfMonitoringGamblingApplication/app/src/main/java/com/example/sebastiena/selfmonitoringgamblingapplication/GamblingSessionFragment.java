@@ -296,8 +296,8 @@ public class GamblingSessionFragment extends Fragment implements TimePickerDialo
     public GamblingSessionEntity createGamblingSessionEntity(String startingAmount, String finalAmount, String mode, String game, int duration, String stringDate) {
         String startTime = startHour + ":" + startMin;
         String endTime = endHour + ":" + endMin;
-        int outcome = Integer.parseInt(finalAmount) + Integer.parseInt(startingAmount);
-        String stringOutcome = Integer.toHexString(outcome);
+        int outcome = Integer.parseInt(finalAmount) - Integer.parseInt(startingAmount);
+        String stringOutcome = Integer.toString(outcome);
         GamblingSessionEntity gs = new GamblingSessionEntity(FirebaseAuth.getInstance().getCurrentUser().getUid(), FirebaseAuth.getInstance().getCurrentUser().getEmail(), stringDate, mode, game, startingAmount, finalAmount, stringOutcome, startTime, endTime, duration);
         return gs;
     }
