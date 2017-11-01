@@ -34,6 +34,8 @@ public class HomeFragment extends Fragment {
     private Button sessionsButton;
     private Button graphsButton;
     private TextView outcome;
+    private TextView maxWon;
+    private TextView maxLost;
     private TextView date;
 
     private FirebaseAuth auth;
@@ -65,14 +67,16 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup view = (ViewGroup)inflater.inflate(R.layout.fragment_home, container, false);
         outcome = (TextView) view.findViewById(R.id.outcome);
+        maxWon = (TextView) view.findViewById(R.id.maxWon);
+        maxLost = (TextView) view.findViewById(R.id.maxLost);
         date = (TextView) view.findViewById(R.id.date);
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
 
-        date.setText("We are currently the " + getDate());
+        date.setText("Date: " + getDate());
         DatabaseHelper dbHelper = new DatabaseHelper(FirebaseDatabase.getInstance().getReference());
-        dbHelper.fetchDataAndDisplayOutcome(super.getActivity(),outcome);
+        dbHelper.fetchDataAndDisplayHomePage(super.getActivity(),outcome,maxWon,maxLost);
         return view;
     }
 

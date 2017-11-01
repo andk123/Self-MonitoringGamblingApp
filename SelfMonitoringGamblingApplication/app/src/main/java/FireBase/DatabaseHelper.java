@@ -297,7 +297,7 @@ public class DatabaseHelper {
         return saved;
     }
 
-    public void fetchDataAndDisplayOutcome(final Activity act, final TextView outcome){
+    public void fetchDataAndDisplayHomePage(final Activity act, final TextView outcome,final TextView maxwon,final TextView maxlost){
         gsEntities.clear();
         final ArrayList<GamblingSessionEntity> gsEntities = new ArrayList<>();
 
@@ -308,12 +308,22 @@ public class DatabaseHelper {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     gsEntities.add(ds.getValue(GamblingSessionEntity.class));
                 }
-               int totalOutcome = 0;
+                int totalOutcome = 0;
+                int maxWon = 0;
+                int maxLost = 0;
                 for(GamblingSessionEntity entity : gsEntities){
                     int moneyOutcome = Integer.parseInt(entity.getFinalAmount())-Integer.parseInt(entity.getStartingAmount());
+                    if (maxWon<moneyOutcome){
+                        maxWon = moneyOutcome;
+                    }
+                    if (maxLost>moneyOutcome){
+                        maxLost = moneyOutcome;
+                    }
                     totalOutcome = totalOutcome + moneyOutcome;
                 }
-                outcome.setText("Your current balance is  " + Integer.toString(totalOutcome) +"$");
+                maxwon.setText("Max amount won: " +Integer.toString(maxWon) +"$");
+                maxlost.setText("Max amount lost: " +Integer.toString(maxLost) +"$");
+                outcome.setText( Integer.toString(totalOutcome) +"$");
             }
 
             @Override

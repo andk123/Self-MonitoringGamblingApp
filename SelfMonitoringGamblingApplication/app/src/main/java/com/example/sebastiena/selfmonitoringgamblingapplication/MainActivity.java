@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         date.setText("Current date: " + getDate());
         DatabaseHelper dbHelper = new DatabaseHelper(FirebaseDatabase.getInstance().getReference());
-        dbHelper.fetchDataAndDisplayOutcome(MainActivity.this,outcome);
+
 
 
 

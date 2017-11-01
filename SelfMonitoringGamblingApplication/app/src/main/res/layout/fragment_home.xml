@@ -5,56 +5,113 @@
     tools:context="com.example.sebastiena.selfmonitoringgamblingapplication.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
-
-
-    <LinearLayout
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/dices6"
-        android:gravity="center"
         android:orientation="vertical"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:id="@+id/view1">
+        <TextView
+            android:id="@+id/overview"
+            android:layout_width="fill_parent"
+            android:text="Overview"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textSize="41dp"
+            android:maxLines="2"
+
+            android:fontFamily="sans-serif"
+            android:textColor="@color/colorText"
+
+            />
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ring"
+            android:id="@+id/linearLayout">
+
+            <TextView
+                android:id="@+id/balance"
+                android:layout_width="200dp"
+                android:paddingTop="17dp"
+                android:text="Current Balance"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearance"
+                android:textSize="21dp"
+                android:maxLines="2"
+                android:layout_centerInParent="true"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/colorText"
+
+                />
+            <TextView
+                android:id="@+id/outcome"
+                android:layout_width="200dp"
+                android:layout_height="5dp"
+                android:layout_weight="1"
+                android:paddingBottom="60dp"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearance"
+                android:textSize="40dp"
+                android:maxLines="2"
+                android:layout_centerInParent="true"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
+                android:textColor="@color/colorText"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/maxWon"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:maxLines="1"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
+            android:textColor="@color/colorText"
+            android:layout_marginTop="28dp"
+            android:layout_below="@+id/linearLayout"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/maxLost"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textSize="25dp"
+            android:maxLines="1"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
+            android:textColor="@color/colorText"
+            android:layout_below="@+id/maxWon"
+            android:layout_alignParentStart="true" />
 
         <TextView
             android:id="@+id/date"
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearance"
             android:textSize="25dp"
-            android:fontFamily="sans-serif"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            android:maxLines="2"/>
-
-        <ImageView
-            android:layout_width="@dimen/logo_w_h"
-            android:layout_height="@dimen/logo_w_h"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="30dp"
-            android:src="@drawable/user"
-            />
-
-
-        <TextView
-            android:id="@+id/outcome"
-            android:layout_width="wrap_content"
-            android:layout_height="4dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textAppearance="?android:attr/textAppearance"
-            android:textSize="32dp"
             android:maxLines="2"
+
             android:fontFamily="sans-serif"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            />
+            android:textColor="@color/colorText"
 
+            android:layout_above="@+id/linearLayout"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
 
-
-
-    </LinearLayout>
 
 
 </FrameLayout>
