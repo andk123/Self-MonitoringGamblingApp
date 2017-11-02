@@ -59,7 +59,9 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import Objects.GamblingSessionEntity;
@@ -199,16 +201,8 @@ public class DatabaseHelper {
                     }
                     builder1.setCancelable(true);
 
-                    builder1.setPositiveButton(
-                            "Yes",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
-
-                    builder1.setNegativeButton(
-                            "No",
+                    builder1.setNeutralButton(
+                            "Ok",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.cancel();
@@ -335,6 +329,61 @@ public class DatabaseHelper {
 
 
     }
+    public String getDate() {
+        Date date = new Date();
+        Date newDate = new Date(date.getTime() + (604800000L * 2) + (24 * 60 * 60));
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+        return dt.format(newDate);
+
+    }
+
+    public void fetchDataAndDisplayDaily(final Activity act, final TextView spentView,final TextView madeView,final TextView lostView,final TextView outcome){
+        gsEntities.clear();
+        final ArrayList<GamblingSessionEntity> gsEntities = new ArrayList<>();
+
+        Query query = db.child("gamblingSession").orderByChild("uid").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    gsEntities.add(ds.getValue(GamblingSessionEntity.class));
+                }
+                String date = getDate();
+
+                int totalOutcome = 0;
+                int spent = 0;
+                int won = 0;
+                int lost = 0;
+                for(GamblingSessionEntity entity : gsEntities){
+                    if (entity.getDate().equals(date)){
+                        spent = Integer.parseInt(entity.getStartingAmount()) + spent;
+                        int moneyOutcome = Integer.parseInt(entity.getFinalAmount())-Integer.parseInt(entity.getStartingAmount());
+                        if (moneyOutcome >= 0){
+                            won = moneyOutcome + won;
+                        }else{
+
+                            lost = Math.abs(moneyOutcome) + lost;
+                        }
+                        totalOutcome = totalOutcome + moneyOutcome;
+                    }
+
+                }
+                spentView.setText("Spent: "+Integer.toString(spent) +"$");
+                madeView.setText("Made: " +Integer.toString(won) +"$");
+                lostView.setText("Lost: " +Integer.toString(lost) +"$");
+                outcome.setText("Outcome: "+ Integer.toString(totalOutcome) +"$");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+    }
+
 
 
 

@@ -27,7 +27,7 @@ import java.util.List;
 
 import FireBase.DatabaseHelper;
 
-public class newMainActivity extends AppCompatActivity implements GamblingSessionFragment.OnFragmentInteractionListener,SessionsFragment.OnFragmentInteractionListener, HomeFragment.OnFragmentInteractionListener, GraphsFragment.OnFragmentInteractionListener,TimePickerDialog.OnTimeSetListener {
+public class newMainActivity extends AppCompatActivity implements GamblingSessionFragment.OnFragmentInteractionListener,SessionsFragment.OnFragmentInteractionListener, HomeFragment.OnFragmentInteractionListener, GraphsFragment.OnFragmentInteractionListener,DailyStatsFragment.OnFragmentInteractionListener,TimePickerDialog.OnTimeSetListener {
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
     private NavigationView nvView;
@@ -140,6 +140,9 @@ public class newMainActivity extends AppCompatActivity implements GamblingSessio
                 break;
             case R.id.nav_sixth_fragment:
                 logout = true;
+                break;
+            case R.id.nav_seventh_fragment:
+                fragmentClass = DailyStatsFragment.class;
                 break;
             default:
                 fragmentClass = null;
