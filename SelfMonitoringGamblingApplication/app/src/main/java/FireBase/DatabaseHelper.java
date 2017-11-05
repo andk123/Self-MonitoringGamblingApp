@@ -31,6 +31,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -400,6 +401,7 @@ public class DatabaseHelper {
                 }
 
                 LineDataSet lineDataSet = new LineDataSet(entriesLine,"Sessions");
+                lineDataSet.setColor(ColorTemplate.rgb("#044848"));
                 LineData lineData = new LineData(lineDataSet);
                 lineChart.setData(lineData);
                 lineChart.setTouchEnabled(true);
@@ -450,7 +452,7 @@ public class DatabaseHelper {
                 }
 
                 PieDataSet dataSet = new PieDataSet(entries, "Outcome");
-                dataSet.setColors(new int[] {Color.GREEN,Color.RED });
+                dataSet.setColors(new int[] {ColorTemplate.rgb("#00ff80"),ColorTemplate.rgb("#ff4d4d")});
                 PieData data = new PieData();
                 data.setDataSet(dataSet);
                 piechart.setData(data);

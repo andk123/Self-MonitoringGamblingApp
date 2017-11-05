@@ -15,13 +15,21 @@
         android:layout_marginBottom="20dp"
         android:visibility="gone" />
 
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true">
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/gambling"
+            android:background="@drawable/dices_graph2"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="@dimen/activity_horizontal_margin">
+            android:padding="@dimen/activity_horizontal_margin"
+            android:descendantFocusability="beforeDescendants"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -157,4 +165,5 @@
 
 
         </LinearLayout>
+    </ScrollView>
 </android.support.design.widget.CoordinatorLayout>

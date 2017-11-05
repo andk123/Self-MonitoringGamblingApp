@@ -1,18 +1,15 @@
 package com.example.sebastiena.selfmonitoringgamblingapplication;
 
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -20,10 +17,7 @@ import android.view.MenuItem;
 import android.widget.TimePicker;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.List;
 
 import FireBase.DatabaseHelper;
 
@@ -143,6 +137,12 @@ public class newMainActivity extends AppCompatActivity implements GamblingSessio
                 break;
             case R.id.nav_seventh_fragment:
                 fragmentClass = DailyStatsFragment.class;
+                break;
+            case R.id.nav_eight_fragment:
+                fragmentClass = AdviceScreenSlideFragment.class;
+                break;
+            case R.id.nav_ninth_fragment:
+                fragmentClass = AboutFragment.class;
                 break;
             default:
                 fragmentClass = null;

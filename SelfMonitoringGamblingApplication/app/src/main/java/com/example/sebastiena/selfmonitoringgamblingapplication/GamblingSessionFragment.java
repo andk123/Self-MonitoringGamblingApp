@@ -329,8 +329,9 @@ public class GamblingSessionFragment extends Fragment implements TimePickerDialo
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // Do something with the time chosen by the user
+        String dayRange = "am";
+        String minuteStr;
         if (isStart) {
-            String dayRange = "am";
             startHour = hourOfDay;
             startMin = minute;
             if (startHour > 11) {
@@ -338,16 +339,22 @@ public class GamblingSessionFragment extends Fragment implements TimePickerDialo
                 startHour = (startHour == 12) ? 12 : startHour - 12;
             }
 
-            timeStarts.setText(startHour + ":" + startMin + dayRange);
+            minuteStr = startMin + "";
+            if(startMin < 10) minuteStr = "0" + minuteStr;
+
+            timeStarts.setText(startHour + ":" + minuteStr + dayRange);
         } else {
-            String dayRange = "am";
             endHour = hourOfDay;
             endMin = minute;
             if (endHour > 11) {
                 dayRange = "pm";
                 endHour = (endHour == 12) ? 12 : endHour - 12;
             }
-            timeEnds.setText(endHour + ":" + endMin + dayRange);
+
+            minuteStr = endMin + "";
+            if(endMin < 10) minuteStr = "0" + minuteStr;
+
+            timeEnds.setText(endHour + ":" + minuteStr + dayRange);
 
         }
 

@@ -83,7 +83,6 @@
             </android.support.design.widget.TextInputLayout>
 
 
-
             <Button
                 android:id="@+id/budgetButton"
                 style="?android:textAppearanceSmall"
