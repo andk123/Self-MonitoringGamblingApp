@@ -1,5 +1,5 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name">GambTrax</string>
+    <string name="app_name">Play&amp;Trak</string>
     <string name="version">Version 1.0.2</string>
     <string name="action_sign_in_short">Register</string>
     <string name="email">Email</string>
@@ -37,6 +37,7 @@
     <string name="final_amount">Final Amount</string>
     <string name="pick_time">Start Time</string>
     <string name="projected_time">End Time</string>
+    <string name="gambling_session">Enter a New Session</string>
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
@@ -173,7 +174,7 @@
     <string name="advice7title">Balance gambling with other activities.</string>
     <string name="advice7"><![CDATA[It’s important to enjoy other activities so that gambling doesn’t become too big a part of your life.]]></string>
 
-    <string name="advice8title">Gambling and alcohol are not a good combination.</string>
+    <string name="advice8title">Gambling, alcohol and drugs are not a good combination.</string>
     <string name="advice8"><![CDATA[Gambling under the influence is common, but it generally leads people to make bad decisions that they regret later. ]]></string>
 
 </resources>

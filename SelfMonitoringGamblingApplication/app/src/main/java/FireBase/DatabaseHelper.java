@@ -299,8 +299,12 @@ public class DatabaseHelper {
                     }
                     totalOutcome = totalOutcome + moneyOutcome;
                 }
-                maxwon.setText("Max amount won: " +Integer.toString(maxWon) +"$");
-                maxlost.setText("Max amount lost: " +Integer.toString(maxLost) +"$");
+
+                String maxWonStr = maxWon < 0 ? "-$"+Math.abs(maxWon) : "$"+maxWon;
+                String maxLostStr = maxLost < 0 ? "-$"+Math.abs(maxLost) : "$"+maxLost;
+
+                maxwon.setText("Max amount won: " + maxWonStr + "");
+                maxlost.setText("Max amount lost: " + maxLostStr + "");
                 outcome.setText( Integer.toString(totalOutcome) +"$");
             }
 
