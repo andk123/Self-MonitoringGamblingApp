@@ -37,6 +37,7 @@ public class HomeFragment extends Fragment {
     private TextView maxWon;
     private TextView maxLost;
     private TextView date;
+    private TextView totalTime;
 
     private FirebaseAuth auth;
 
@@ -70,13 +71,14 @@ public class HomeFragment extends Fragment {
         maxWon = (TextView) view.findViewById(R.id.maxWon);
         maxLost = (TextView) view.findViewById(R.id.maxLost);
         date = (TextView) view.findViewById(R.id.date);
+        totalTime = (TextView) view.findViewById(R.id.totalTime);
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
 
         date.setText("Date: " + getDate());
         DatabaseHelper dbHelper = new DatabaseHelper(FirebaseDatabase.getInstance().getReference());
-        dbHelper.fetchDataAndDisplayHomePage(super.getActivity(),outcome,maxWon,maxLost);
+        dbHelper.fetchDataAndDisplayHomePage(super.getActivity(),outcome,maxWon,maxLost,totalTime);
         return view;
     }
 

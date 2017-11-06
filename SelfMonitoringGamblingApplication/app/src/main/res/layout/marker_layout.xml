@@ -11,7 +11,7 @@
         android:layout_centerHorizontal="true"
         android:text=""
         android:textSize="10dp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorPrimaryDark"
         android:ellipsize="end"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 

@@ -45,6 +45,7 @@ import com.jjoe64.graphview.series.DataPoint;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -139,19 +140,19 @@ public class DatabaseHelper {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     gsEntities.add(ds.getValue(GamblingSessionEntity.class));
                 }
-                if (gsEntities.size()%5 == 0){
+                if (gsEntities.size()%2 == 0){
 
                     boolean didBetter = false;
                     boolean firstTime = true;
                     int spentAmount = 0;
-                    for (int i = gsEntities.size()-1; i> gsEntities.size()-6;i--){
+                    for (int i = gsEntities.size()-1; i> gsEntities.size()-3;i--){
                         spentAmount = spentAmount + Integer.valueOf(gsEntities.get(i).getStartingAmount());
                     }
 
                     int previousSpentAmount = 0;
-                    if (gsEntities.size()>=10){
+                    if (gsEntities.size()>=4){
                         firstTime = false;
-                        for (int i = gsEntities.size()-6; i>= gsEntities.size()-10;i--){
+                        for (int i = gsEntities.size()-3; i>= gsEntities.size()-4;i--){
                             previousSpentAmount = previousSpentAmount + Integer.valueOf(gsEntities.get(i).getStartingAmount());
                         }
 
@@ -166,19 +167,19 @@ public class DatabaseHelper {
                     if (firstTime){
 
                         if (spentAmount > 50){
-                            builder1.setMessage("This is your fifth session. A normal person gambles around : " + spentAmount *0.75 + ". You gambled : " + spentAmount);
+                            builder1.setMessage("This is your second session. A normal person gambles around : " + spentAmount *0.75 + ". You gambled : " + spentAmount);
 
                         }else{
-                            builder1.setMessage("This is your fifth session. You've gambled : " + spentAmount  );
+                            builder1.setMessage("This is your second session. You've gambled : " + spentAmount  );
 
                         }
                     }else {
                         if (didBetter){
-                            builder1.setMessage("Congrats you've decreased your gambling in these last 5 sessions. You went from : " + previousSpentAmount + " to : " + spentAmount);
+                            builder1.setMessage("Congrats you've decreased your gambling in these last 2 sessions. You went from : " + previousSpentAmount + " to : " + spentAmount);
 
                         }else{
 
-                            builder1.setMessage("You went over your previous 5 gambling sessions amount spent. You went from : " + previousSpentAmount + " to : " + spentAmount);
+                            builder1.setMessage("You went over your previous 2 gambling sessions amount spent. You went from : " + previousSpentAmount + " to : " + spentAmount);
 
 
                         }
@@ -275,7 +276,7 @@ public class DatabaseHelper {
         return saved;
     }
 
-    public void fetchDataAndDisplayHomePage(final Activity act, final TextView outcome,final TextView maxwon,final TextView maxlost){
+    public void fetchDataAndDisplayHomePage(final Activity act, final TextView outcome,final TextView maxwon,final TextView maxlost,final TextView time){
         gsEntities.clear();
         final ArrayList<GamblingSessionEntity> gsEntities = new ArrayList<>();
 
@@ -289,8 +290,10 @@ public class DatabaseHelper {
                 int totalOutcome = 0;
                 int maxWon = 0;
                 int maxLost = 0;
+                int totalTime = 0;
                 for(GamblingSessionEntity entity : gsEntities){
                     int moneyOutcome = Integer.parseInt(entity.getFinalAmount())-Integer.parseInt(entity.getStartingAmount());
+                    totalTime = entity.getDuration() + totalTime;
                     if (maxWon<moneyOutcome){
                         maxWon = moneyOutcome;
                     }
@@ -299,10 +302,20 @@ public class DatabaseHelper {
                     }
                     totalOutcome = totalOutcome + moneyOutcome;
                 }
+                String duration;
+                if(totalTime>60){
+                    int hours = totalTime/60;
+                    int minutes = totalTime%60;
+                    duration= Integer.toString(hours) +"h " + Integer.toString(minutes) + "m";
+                }else{
+                    duration = totalTime + "m";
+                }
+
+
 
                 String maxWonStr = maxWon < 0 ? "-$"+Math.abs(maxWon) : "$"+maxWon;
                 String maxLostStr = maxLost < 0 ? "-$"+Math.abs(maxLost) : "$"+maxLost;
-
+                time.setText("Total playing time: " + duration);
                 maxwon.setText("Max amount won: " + maxWonStr + "");
                 maxlost.setText("Max amount lost: " + maxLostStr + "");
                 outcome.setText( Integer.toString(totalOutcome) +"$");
@@ -499,6 +512,7 @@ public class DatabaseHelper {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     gsEntities.add(ds.getValue(GamblingSessionEntity.class));
                 }
+                Collections.reverse(gsEntities);
                 GamblingSessionAdapter adapter = new GamblingSessionAdapter(c,gsEntities);
                 listView.setAdapter(adapter);
 
