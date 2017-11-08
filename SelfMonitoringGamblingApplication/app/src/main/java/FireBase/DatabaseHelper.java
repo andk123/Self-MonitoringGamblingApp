@@ -315,10 +315,12 @@ public class DatabaseHelper {
 
                 String maxWonStr = maxWon < 0 ? "-$"+Math.abs(maxWon) : "$"+maxWon;
                 String maxLostStr = maxLost < 0 ? "-$"+Math.abs(maxLost) : "$"+maxLost;
+                String totalOutcomeStr = totalOutcome < 0 ? "-$"+Math.abs(totalOutcome) : "$"+totalOutcome;
+
                 time.setText("Total playing time: " + duration);
                 maxwon.setText("Max amount won: " + maxWonStr + "");
                 maxlost.setText("Max amount lost: " + maxLostStr + "");
-                outcome.setText( Integer.toString(totalOutcome) +"$");
+                outcome.setText( totalOutcomeStr);
             }
 
             @Override
@@ -369,10 +371,15 @@ public class DatabaseHelper {
                     }
 
                 }
-                spentView.setText("Spent: "+Integer.toString(spent) +"$");
-                madeView.setText("Made: " +Integer.toString(won) +"$");
-                lostView.setText("Lost: " +Integer.toString(lost) +"$");
-                outcome.setText("Outcome: "+ Integer.toString(totalOutcome) +"$");
+                String spentStr = spent < 0 ? "-$"+Math.abs(spent) : "$"+spent;
+                String wonStr = won < 0 ? "-$"+Math.abs(won) : "$"+won;
+                String lostStr = spent < 0 ? "-$"+Math.abs(lost) : "$"+lost;
+                String totalOutcomeStr = totalOutcome < 0 ? "-$"+Math.abs(totalOutcome) : "$"+totalOutcome;
+
+                spentView.setText("Spent: "+ spentStr +"");
+                madeView.setText("Made: " + wonStr +"");
+                lostView.setText("Lost: " + lostStr +"");
+                outcome.setText("Outcome: "+ totalOutcomeStr +"");
             }
 
             @Override

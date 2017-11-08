@@ -14,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.jjoe64.graphview.GraphView;
 
 import FireBase.DatabaseHelper;
+import pl.polidea.view.ZoomView;
 
 
 /**
@@ -27,6 +28,7 @@ import FireBase.DatabaseHelper;
 public class GraphsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private ZoomView zoomView;
 
     public GraphsFragment() {
         // Required empty public constructor
@@ -50,6 +52,7 @@ public class GraphsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -62,7 +65,11 @@ public class GraphsFragment extends Fragment {
         LineChart lineChart = (LineChart) view.findViewById(R.id.line_chart);
         DatabaseHelper dbHelper = new DatabaseHelper(FirebaseDatabase.getInstance().getReference());
         dbHelper.fetchDataAndDisplayGraphs(super.getActivity(),pieChart,lineChart);
-        return view;
+
+        ZoomView zoomView = new ZoomView(getActivity());
+        zoomView.addView(view);
+        
+        return zoomView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
