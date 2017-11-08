@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="GambTrax Menu"
+        android:text="@string/app_name_menu"
         android:fontFamily="sans-serif"
         android:textStyle="bold"
         android:textColor="@android:color/white"

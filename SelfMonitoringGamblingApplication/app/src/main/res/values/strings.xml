@@ -1,5 +1,6 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Play&amp;Trak</string>
+    <string name="app_name_menu">Play&amp;Trak Menu</string>
     <string name="version">Version 1.0.2</string>
     <string name="action_sign_in_short">Register</string>
     <string name="email">Email</string>
