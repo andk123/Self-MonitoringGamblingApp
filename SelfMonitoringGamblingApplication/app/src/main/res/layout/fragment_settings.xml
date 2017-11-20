@@ -32,13 +32,6 @@
             android:layout_height="wrap_content"
             android:background="@android:drawable/btn_dropdown"
             />
-        <Spinner
-            android:id="@+id/spinner_notifications"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:drawable/btn_dropdown"
-            />
-
 
 
         <android.support.design.widget.TextInputLayout

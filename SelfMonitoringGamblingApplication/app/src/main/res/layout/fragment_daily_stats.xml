@@ -75,6 +75,16 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="@android:color/holo_orange_dark" />
+            <EditText
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:hint="Daily Time Limit"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@android:color/holo_orange_dark" />
+
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -90,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@color/colorPrimary"
-                android:text="Set budget Limit"
+                android:text="Set Limits"
                 android:textColor="@android:color/black"
                 android:textStyle="bold" />
 

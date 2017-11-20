@@ -1,19 +1,24 @@
 package com.example.sebastiena.selfmonitoringgamblingapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import FireBase.DatabaseHelper;
+import Objects.UserEntity;
 
 
 /**
@@ -76,9 +81,52 @@ public class DailyStatsFragment extends Fragment {
         final TextView lost = (TextView)view.findViewById(R.id.lost);
         final TextView outcome = (TextView)view.findViewById(R.id.outcome);
         final EditText budgetLimit = (EditText) view.findViewById(R.id.budget);
+        final EditText timeLimit = (EditText) view.findViewById(R.id.time);
         final Button budgetButton = (Button) view.findViewById(R.id.budgetButton);
         DatabaseHelper dbHelper = new DatabaseHelper(FirebaseDatabase.getInstance().getReference());
-        dbHelper.fetchDataAndDisplayDaily(super.getActivity(),spent,made,lost,outcome);
+        dbHelper.fetchDataAndDisplayDaily(super.getActivity(),spent,made,lost,outcome, budgetLimit,timeLimit);
+
+        budgetButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                String dailyBudget = budgetLimit.getText().toString().trim();
+                String dailyTime = timeLimit.getText().toString().trim();
+                if (TextUtils.isEmpty(dailyBudget)) {
+                    Toast.makeText(DailyStatsFragment.super.getContext(), "Enter Daily Budget Limit Amount!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(dailyTime)) {
+                    Toast.makeText(DailyStatsFragment.super.getContext(), "Enter Daily Time Limit Amount!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                int limit = Integer.valueOf(dailyBudget);
+                int time = Integer.valueOf(dailyTime);
+
+                DatabaseHelper dbHelper = new DatabaseHelper(FirebaseDatabase.getInstance().getReference());
+
+                if(dbHelper.updateUserDailyLimit(FirebaseAuth.getInstance().getCurrentUser().getUid(),limit,time)){
+                    Toast.makeText(DailyStatsFragment.super.getContext(), "Daily Limit Set", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(DailyStatsFragment.super.getContext(), newMainActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(DailyStatsFragment.super.getContext(), "Error setting daily limit", Toast.LENGTH_LONG).show();
+                    return;
+
+                }
+
+            }
+
+
+
+
+
+        });
+
+
+
+
+
         return view;
     }
 

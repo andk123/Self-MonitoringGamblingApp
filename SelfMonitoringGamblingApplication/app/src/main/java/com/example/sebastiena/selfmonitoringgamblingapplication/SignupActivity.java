@@ -148,7 +148,7 @@ public class SignupActivity extends AppCompatActivity {
 
         public void createUserDb(String spinSex,String yob){
             mDatabase = FirebaseDatabase.getInstance().getReference();
-            UserEntity user = new UserEntity(FirebaseAuth.getInstance().getCurrentUser().getUid(),yob,spinSex);
+            UserEntity user = new UserEntity(FirebaseAuth.getInstance().getCurrentUser().getUid(),yob,spinSex,"0","0");
             DatabaseReference usersRef = mDatabase.child("users");
             usersRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user);
     }

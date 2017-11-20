@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.support.v4.app.FragmentActivity;
@@ -47,7 +48,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import Objects.GamblingSessionEntity;
 import Objects.UserEntity;
@@ -98,7 +101,7 @@ import Objects.UserEntity;
                      duration = Integer.toString(gs.getDuration()) + "m";
                 }
 
-                
+
                 String infoText = "Outcome: "+ e.getY()+ "\n" + "Date: " +date + "\n" + "Game: " +game +  "\n" + "Mode: " +mode +"\n" + "Duration: " +duration;
 
                 tvContent.setSingleLine(false);
@@ -209,6 +212,124 @@ public class DatabaseHelper {
     }
 
 
+    public void getDailyLimit(final Activity act) {
+
+        Query query = db.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                UserEntity currentUser = dataSnapshot.getValue(UserEntity.class);
+                int budgetLimit = Integer.parseInt(currentUser.getDailyLimit());
+                int timeLimit = Integer.parseInt(currentUser.getDailyTimeLimit());
+                displayLimitDialog(act, budgetLimit,timeLimit);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+
+        });
+
+
+    }
+
+
+
+
+
+
+    public void displayLimitDialog(final Activity act, final int budgetLimit, final int timeLimit) {
+        final ArrayList<GamblingSessionEntity> gsEntities = new ArrayList<>();
+
+        Query query = db.child("gamblingSession").orderByChild("uid").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String date = getDate();
+                int spent = 0;
+                int time = 0;
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    gsEntities.add(ds.getValue(GamblingSessionEntity.class));
+                }
+                for (GamblingSessionEntity entity : gsEntities) {
+                    if (entity.getDate().equals(date)) {
+                        time = entity.getDuration() + time;
+                        spent = Integer.parseInt(entity.getStartingAmount()) + spent;
+                    }
+
+                }
+                if (budgetLimit != 0 && timeLimit != 0) {
+
+                    if (spent >= budgetLimit & time >= timeLimit) {
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(act);
+                        builder1.setMessage("WARNING: You've exceeded your daily budget and time limit.");
+
+                        builder1.setCancelable(true);
+
+                        builder1.setNeutralButton(
+                                "Ok",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                        AlertDialog alert11 = builder1.create();
+                        alert11.show();
+
+                    } else if (spent >= budgetLimit) {
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(act);
+                        builder1.setMessage("WARNING: You've exceeded your daily budget limit. Limit is set to: " + budgetLimit + " You are at: " + spent);
+
+                        builder1.setCancelable(true);
+
+                        builder1.setNeutralButton(
+                                "Ok",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                        AlertDialog alert11 = builder1.create();
+                        alert11.show();
+
+                    } else if (time >= timeLimit) {
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(act);
+                        builder1.setMessage("WARNING: You've exceeded your daily time limit. Limit is set to: " + timeLimit + " You are at: " + time);
+
+                        builder1.setCancelable(true);
+
+                        builder1.setNeutralButton(
+                                "Ok",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                        AlertDialog alert11 = builder1.create();
+                        alert11.show();
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+
+
+
 
 
     public boolean saveGamblingSession(GamblingSessionEntity entity){
@@ -234,23 +355,39 @@ public class DatabaseHelper {
     }
 
 
-    public boolean updateUserEntity(UserEntity entity){
-        if (entity == null){
-            saved = false;
-        }else{
+    public boolean updateUserDailyLimit( String uid, int limit,int time){
+    boolean saved;
             try{
                 DatabaseReference gsRef = db.child("users");
-
-                DatabaseReference entityRef = gsRef.child(entity.getUid());
-                entityRef.setValue(entity);
+                DatabaseReference entityRef = gsRef.child(uid);
+                entityRef.child("dailyLimit").setValue(Integer.toString(limit));
+                entityRef.child("dailyTimeLimit").setValue(Integer.toString(time));
                 saved = true;
             }catch(DatabaseException e){
                 e.printStackTrace();
                 saved = false;
 
             }
-        }
 
+
+        return saved;
+    }
+
+
+
+    public boolean updateUserEntity(String uid, String yob, String sex){
+        boolean saved;
+        try{
+            DatabaseReference gsRef = db.child("users");
+            DatabaseReference entityRef = gsRef.child(uid);
+            entityRef.child("yob").setValue(yob);
+            entityRef.child("sex").setValue(sex);
+            saved = true;
+        }catch(DatabaseException e){
+            e.printStackTrace();
+            saved = false;
+
+        }
         return saved;
     }
 
@@ -340,7 +477,7 @@ public class DatabaseHelper {
 
     }
 
-    public void fetchDataAndDisplayDaily(final Activity act, final TextView spentView,final TextView madeView,final TextView lostView,final TextView outcome){
+    public void fetchDataAndDisplayDaily(final Activity act, final TextView spentView, final TextView madeView, final TextView lostView, final TextView outcome, final EditText budget, final EditText time){
         gsEntities.clear();
         final ArrayList<GamblingSessionEntity> gsEntities = new ArrayList<>();
 
@@ -386,6 +523,26 @@ public class DatabaseHelper {
             public void onCancelled(DatabaseError databaseError) {
 
             }
+        });
+
+
+        Query query2 = db.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                UserEntity currentUser = dataSnapshot.getValue(UserEntity.class);
+                budget.setText(currentUser.getDailyLimit(), TextView.BufferType.EDITABLE);
+                time.setText(currentUser.getDailyTimeLimit(), TextView.BufferType.EDITABLE);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+
         });
 
 

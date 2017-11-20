@@ -171,7 +171,16 @@ public class GamblingSessionFragment extends Fragment implements TimePickerDialo
             buttonSubmit.setText("Update Session");
 
 
+        }else{
+
+
+            DatabaseHelper dbHelper = new DatabaseHelper(FirebaseDatabase.getInstance().getReference());
+            dbHelper.getDailyLimit(super.getActivity());
         }
+
+
+
+
 
         startButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
