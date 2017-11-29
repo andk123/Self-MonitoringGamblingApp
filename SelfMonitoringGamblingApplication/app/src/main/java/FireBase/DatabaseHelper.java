@@ -266,7 +266,7 @@ public class DatabaseHelper {
 
                     if (spent >= budgetLimit & time >= timeLimit) {
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(act);
-                        builder1.setMessage("WARNING: You've exceeded your daily budget and time limit.");
+                        builder1.setMessage("WARNING: You've exceeded your daily budget and time limit. Time Limit is set to: " + timeLimit + " You are at: " + time + ". Budget Limit is set to:"+ budgetLimit + " You are at: " + spent);
 
                         builder1.setCancelable(true);
 
@@ -532,8 +532,8 @@ public class DatabaseHelper {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 UserEntity currentUser = dataSnapshot.getValue(UserEntity.class);
-                budget.setText(currentUser.getDailyLimit(), TextView.BufferType.EDITABLE);
-                time.setText(currentUser.getDailyTimeLimit(), TextView.BufferType.EDITABLE);
+                budget.setText("$"+currentUser.getDailyLimit() , TextView.BufferType.EDITABLE);
+                time.setText(currentUser.getDailyTimeLimit()+"m", TextView.BufferType.EDITABLE);
 
             }
 
@@ -636,8 +636,10 @@ public class DatabaseHelper {
                 dataSet.setColors(new int[] {ColorTemplate.rgb("#00ff80"),ColorTemplate.rgb("#ff4d4d")});
                 PieData data = new PieData();
                 data.setDataSet(dataSet);
+                data.setValueTextSize(10f);
                 piechart.setData(data);
                 piechart.invalidate();
+
 
 
                 bar.setValueDependentColor(new ValueDependentColor<DataPoint>() {

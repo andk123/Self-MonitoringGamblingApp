@@ -65,21 +65,40 @@
                 android:fontFamily="sans-serif"
                 android:textColor="@color/colorText" />
 
+            <TextView
+                android:id="@+id/budget_text"
+                android:text="Budget Limit"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:textAppearance="?android:attr/textAppearance"
+                android:textSize="17dp"
 
+                android:fontFamily="sans-serif"
+                android:textColor="@color/colorText" />
             <EditText
                 android:id="@+id/budget"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:hint="Daily Budget Limit"
+                android:layout_height="50dp"
+                android:hint="Enter Daily Budget Limit"
                 android:inputType="text"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="@android:color/holo_orange_dark" />
+            <TextView
+                android:id="@+id/time_text"
+                android:text="Time Limit"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:textAppearance="?android:attr/textAppearance"
+                android:textSize="17dp"
+
+                android:fontFamily="sans-serif"
+                android:textColor="@color/colorText" />
             <EditText
                 android:id="@+id/time"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:hint="Daily Time Limit"
+                android:layout_height="50dp"
+                android:hint="Enter Daily Time Limit"
                 android:inputType="text"
                 android:maxLines="1"
                 android:singleLine="true"
