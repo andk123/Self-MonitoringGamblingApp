@@ -24,25 +24,27 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="@drawable/gradient_background3"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="@dimen/activity_horizontal_margin"
             android:descendantFocusability="beforeDescendants"
             android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_margin">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <TextView android:id="@+id/advice_title"
+                <TextView
+                    android:id="@+id/advice_title"
                     style="?android:textAppearanceLarge"
-                    android:textStyle="bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/gambling_session"/>
+                    android:text="@string/gambling_session"
+                    android:textStyle="bold" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="138dp"
@@ -58,8 +60,6 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="30dp"
                     android:src="@drawable/dices2" />
-
-
 
 
             </LinearLayout>

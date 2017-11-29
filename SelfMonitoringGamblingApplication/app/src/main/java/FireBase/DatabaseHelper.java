@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.widget.Toast;
 
 import com.example.sebastiena.selfmonitoringgamblingapplication.GamblingSessionFragment;
 import com.example.sebastiena.selfmonitoringgamblingapplication.R;
+import com.example.sebastiena.selfmonitoringgamblingapplication.calendar.bean.CalendarDate;
+import com.example.sebastiena.selfmonitoringgamblingapplication.calendar.utils.StringUtils;
+import com.example.sebastiena.selfmonitoringgamblingapplication.calendar.view.CommonCalendarView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -44,6 +49,7 @@ import com.jjoe64.graphview.ValueDependentColor;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -475,6 +481,129 @@ public class DatabaseHelper {
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
         return dt.format(newDate);
 
+    }
+
+    public void fetchDataAndDisplayCalendar(final List<CalendarDate> mCalendarDateList, final View view, final Activity act){
+        gsEntities.clear();
+        final ArrayList<GamblingSessionEntity> gsEntities = new ArrayList<>();
+
+        //Fetch sessions from the database
+        Query query = db.child("gamblingSession").orderByChild("uid").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    gsEntities.add(ds.getValue(GamblingSessionEntity.class));
+                }
+
+                CalendarDate calendarDate = new CalendarDate();
+                calendarDate.setOutcome(0);
+                String date = gsEntities.get(0).getDate();
+
+                //Get the outcome of each session, sum it for each date, and add it to the list of session dates
+                for(GamblingSessionEntity entity : gsEntities){
+                    if (!entity.getDate().equals(date)) {
+                        calendarDate.setOutcomeDate(date);
+                        mCalendarDateList.add(calendarDate);
+
+                        calendarDate = new CalendarDate();
+                        calendarDate.setOutcome(0);
+                        date = entity.getDate();
+                    }
+
+                    int sessionOutcome = Integer.parseInt(entity.getFinalAmount())-Integer.parseInt(entity.getStartingAmount());
+                    double newOutcome = calendarDate.getOutcome() + sessionOutcome;
+                    calendarDate.setOutcome(newOutcome);
+
+                }
+
+                calendarDate.setOutcomeDate(date);
+                mCalendarDateList.add(calendarDate);
+
+
+                //Display the sessions on the application
+                CommonCalendarView calendarView;
+                final Map<String,List> mYearMonthMap = new HashMap<>();
+
+                for (CalendarDate calendarDate2 : mCalendarDateList) {
+                    calendarDate.getOutcomeDate();
+                    String yearMonth = TextUtils.substring(calendarDate.getOutcomeDate(), 0, TextUtils.lastIndexOf(calendarDate.getOutcomeDate(), '-'));
+                    List list = mYearMonthMap.get(yearMonth);
+                    if (list == null) {
+                        list = new ArrayList();
+                        list.add(calendarDate2);
+                        mYearMonthMap.put(yearMonth, list);
+                    } else {
+                        list.add(calendarDate2);
+                    }
+                }
+
+                calendarView = (CommonCalendarView) view.findViewById(R.id.calendarView);
+
+                //Set the minimum date on Calendar
+//                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+//                try {
+//                    Date minDate = sdf.parse("01/01/2017");
+//                    calendarView.setMinDate(minDate);
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+                
+                calendarView.init(new CommonCalendarView.DatePickerController() {
+                    @Override
+                    public int getMaxYear() {
+                        return 2050;
+                    }
+
+                    @Override
+                    public void onDayOfMonthSelected(int year, int month, int day) {
+                        Toast.makeText(act, String.format("%s-%s-%s", year, StringUtils.leftPad(String.valueOf(month),2,"0"),
+                                StringUtils.leftPad(String.valueOf(day),2,"0")), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onDayOfMonthAndDataSelected(int year, int month, int day, List obj) {
+                        if (obj==null){
+                            return;
+                        }
+                        String priceDate = String.format("%s-%s-%s", year,
+                                StringUtils.leftPad(month + "", 2, "0"), StringUtils.leftPad(String.valueOf(day), 2, "0"));
+                        for (int i = 0; i < obj.size(); i++) {
+                            CalendarDate datePrice = (CalendarDate) obj.get(i);
+                            if (datePrice==null){
+                                continue;
+                            }
+                            if (TextUtils.equals(datePrice.getOutcomeDate(),priceDate)){
+                                Toast.makeText(act, datePrice.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void showOtherFields(Object obj, View view, int gridItemYear, int gridItemMonth, int gridItemDay) {
+                        //当你设置了数据源之后，界面渲染会循环调用showOtherFields方法，在该方法中实现同一日期设置界面显示效果。
+                        CalendarDate calendarDate = (CalendarDate) obj;
+                        if (TextUtils.equals(calendarDate.getOutcomeDate(), String.format("%s-%s-%s", gridItemYear,
+                                StringUtils.leftPad(gridItemMonth + "", 2, "0"), StringUtils.leftPad(String.valueOf(gridItemDay), 2, "0")))) {
+                            CommonCalendarView.GridViewHolder viewHolder = (CommonCalendarView.GridViewHolder) view.getTag();
+                            viewHolder.mPriceTv.setText(String.format("$ %s", calendarDate.getOutcome()));
+                            view.setEnabled(true);
+                            viewHolder.mTextView.setEnabled(true);
+                        }
+                    }
+
+                    @Override
+                    public Map<String, List> getDataSource() {
+                        return mYearMonthMap;
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void fetchDataAndDisplayDaily(final Activity act, final TextView spentView, final TextView madeView, final TextView lostView, final TextView outcome, final EditText budget, final EditText time){

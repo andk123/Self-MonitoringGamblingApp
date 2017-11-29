@@ -144,6 +144,9 @@ public class newMainActivity extends AppCompatActivity implements GamblingSessio
             case R.id.nav_ninth_fragment:
                 fragmentClass = AboutFragment.class;
                 break;
+            case R.id.nav_tenth_fragment:
+                fragmentClass = CalendarFragment.class;
+                break;
             default:
                 fragmentClass = null;
         }
