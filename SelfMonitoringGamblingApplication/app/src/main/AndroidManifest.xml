@@ -25,7 +25,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".newMainActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
